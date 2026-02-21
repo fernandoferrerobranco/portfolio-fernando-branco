@@ -36,16 +36,17 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
     endpoint,
     hasSession: !!session.data.session,
     hasToken: !!accessToken,
-    tokenPreview: accessToken ? `${accessToken.substring(0, 20)}...` : 'NO TOKEN'
+    tokenPreview: accessToken ? `${accessToken.substring(0, 20)}...` : 'USING PUBLIC ANON KEY'
   });
 
-  if (!accessToken) {
-    console.error('❌ No access token found! Session:', session);
-  }
+  // SEMPRE enviar Authorization header:
+  // - Se tiver sessão ativa → usar access_token (usuário autenticado)
+  // - Se não tiver sessão → usar publicAnonKey (acesso público)
+  const authToken = accessToken || publicAnonKey;
 
   const headers = {
     'Content-Type': 'application/json',
-    ...(accessToken && { 'Authorization': `Bearer ${accessToken}` }),
+    'Authorization': `Bearer ${authToken}`,
     ...options.headers,
   };
 

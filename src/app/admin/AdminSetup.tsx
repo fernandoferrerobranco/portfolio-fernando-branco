@@ -7,6 +7,7 @@ import { Label } from '../components/ui/label';
 import { toast } from 'sonner';
 import { UserPlus, Loader2, CheckCircle, Copy, Eye, EyeOff } from 'lucide-react';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
+import { apiRequest } from '../../lib/supabase';
 
 const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server`;
 
@@ -38,6 +39,7 @@ export default function AdminSetup() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${publicAnonKey}`, // SEMPRE enviar o publicAnonKey!
         },
         body: JSON.stringify(formData),
       });
