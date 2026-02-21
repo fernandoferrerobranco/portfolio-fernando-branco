@@ -3,8 +3,6 @@ import { cors } from "npm:hono/cors";
 
 const app = new Hono();
 
-console.log("🚀 Server starting...");
-
 // Enable CORS
 app.use("/*", cors({
   origin: "*",
@@ -12,27 +10,22 @@ app.use("/*", cors({
   allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 }));
 
-// Root route
-app.get("/", (c) => {
-  console.log("✅ Root route hit");
-  return c.json({ message: "Server is running!" });
-});
-
 // Health check
 app.get("/make-server-67983b2b/health", (c) => {
-  console.log("✅ Health route hit");
   return c.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // Test route
 app.get("/make-server-67983b2b/test", (c) => {
-  console.log("✅ Test route hit");
   return c.json({ 
     message: "Test route works!",
     timestamp: new Date().toISOString() 
   });
 });
 
-console.log("🎯 Routes registered, starting Deno server...");
+// Root route
+app.get("/", (c) => {
+  return c.json({ message: "Server is running!" });
+});
 
 Deno.serve(app.fetch);
