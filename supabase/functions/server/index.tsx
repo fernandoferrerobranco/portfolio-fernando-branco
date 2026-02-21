@@ -70,10 +70,10 @@ async function requireAuth(c: any, next: any) {
 }
 
 // ========================================
-// AUTH ROUTES
+// AUTH ROUTES (PUBLIC)
 // ========================================
 
-// Sign up new admin user
+// Sign up new admin user (PUBLIC)
 app.post("/make-server-67983b2b/auth/signup", async (c) => {
   try {
     const { email, password, name } = await c.req.json();
@@ -99,11 +99,11 @@ app.post("/make-server-67983b2b/auth/signup", async (c) => {
 });
 
 // ========================================
-// CONTENT ROUTES (Protected)
+// CONTENT ROUTES
 // ========================================
 
-// Get all content
-app.get("/make-server-67983b2b/content/:section", requireAuth, async (c) => {
+// Get all content (PUBLIC - anyone can read)
+app.get("/make-server-67983b2b/content/:section", async (c) => {
   try {
     const section = c.req.param('section');
     const content = await kv.get(`content:${section}`);
@@ -115,7 +115,7 @@ app.get("/make-server-67983b2b/content/:section", requireAuth, async (c) => {
   }
 });
 
-// Update content for a section
+// Update content for a section (PROTECTED - only admins)
 app.post("/make-server-67983b2b/content/:section", requireAuth, async (c) => {
   try {
     const section = c.req.param('section');
@@ -271,7 +271,7 @@ app.get("/make-server-67983b2b/analytics/dashboard", requireAuth, async (c) => {
 });
 
 // ========================================
-// HEALTH CHECK
+// HEALTH CHECK (PUBLIC)
 // ========================================
 app.get("/make-server-67983b2b/health", (c) => {
   return c.json({ status: "ok" });

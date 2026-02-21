@@ -1,15 +1,27 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { toast } from 'sonner';
-import { UserPlus, Loader2, CheckCircle, Copy, Eye, EyeOff } from 'lucide-react';
-import { projectId, publicAnonKey } from '/utils/supabase/info';
-import { apiRequest } from '../../lib/supabase';
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { toast } from "sonner";
+import {
+  UserPlus,
+  Loader2,
+  CheckCircle,
+  Copy,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+import { projectId, publicAnonKey } from "/utils/supabase/info";
 
-const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server`;
+const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server/make-server-67983b2b`;
 
 export default function AdminSetup() {
   const navigate = useNavigate();
@@ -17,17 +29,17 @@ export default function AdminSetup() {
   const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password.length < 8) {
-      toast.error('Senha muito curta', {
-        description: 'Use no mínimo 8 caracteres',
+      toast.error("Senha muito curta", {
+        description: "Use no mínimo 8 caracteres",
       });
       return;
     }
@@ -35,35 +47,38 @@ export default function AdminSetup() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${publicAnonKey}`, // SEMPRE enviar o publicAnonKey!
+      const response = await fetch(
+        `${API_BASE_URL}/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${publicAnonKey}`, // SEMPRE enviar o publicAnonKey!
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
 
       const data = await response.json();
 
       if (data.success) {
         setSuccess(true);
-        toast.success('Admin criado com sucesso!', {
-          description: 'Redirecionando para login...',
+        toast.success("Admin criado com sucesso!", {
+          description: "Redirecionando para login...",
         });
-        
+
         setTimeout(() => {
-          navigate('/admin/login');
+          navigate("/admin/login");
         }, 2000);
       } else {
-        toast.error('Erro ao criar admin', {
-          description: data.error || 'Tente novamente',
+        toast.error("Erro ao criar admin", {
+          description: data.error || "Tente novamente",
         });
       }
     } catch (error) {
-      console.error('Signup error:', error);
-      toast.error('Erro de conexão', {
-        description: 'Verifique se o backend está ativo',
+      console.error("Signup error:", error);
+      toast.error("Erro de conexão", {
+        description: "Verifique se o backend está ativo",
       });
     } finally {
       setLoading(false);
@@ -98,7 +113,9 @@ export default function AdminSetup() {
           <CardContent className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="text-white/90 font-semibold">Project ID</Label>
+                <Label className="text-white/90 font-semibold">
+                  Project ID
+                </Label>
                 <div className="flex gap-2">
                   <div className="flex-1 p-3 bg-slate-950/50 border border-cyan-500/30 rounded-lg text-cyan-400 font-mono text-sm">
                     {projectId}
@@ -106,7 +123,9 @@ export default function AdminSetup() {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => copyToClipboard(projectId, 'Project ID')}
+                    onClick={() =>
+                      copyToClipboard(projectId, "Project ID")
+                    }
                     className="border-cyan-500/30 hover:bg-cyan-500/10"
                   >
                     <Copy className="w-4 h-4 text-cyan-400" />
@@ -115,7 +134,9 @@ export default function AdminSetup() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-white/90 font-semibold">API URL</Label>
+                <Label className="text-white/90 font-semibold">
+                  API URL
+                </Label>
                 <div className="flex gap-2">
                   <div className="flex-1 p-3 bg-slate-950/50 border border-cyan-500/30 rounded-lg text-cyan-400 font-mono text-xs truncate">
                     {API_BASE_URL}
@@ -123,7 +144,9 @@ export default function AdminSetup() {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => copyToClipboard(API_BASE_URL, 'API URL')}
+                    onClick={() =>
+                      copyToClipboard(API_BASE_URL, "API URL")
+                    }
                     className="border-cyan-500/30 hover:bg-cyan-500/10"
                   >
                     <Copy className="w-4 h-4 text-cyan-400" />
@@ -134,7 +157,8 @@ export default function AdminSetup() {
 
             <div className="p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
               <p className="text-sm text-cyan-400/90">
-                ✅ <strong>Backend detectado!</strong> Tudo configurado automaticamente.
+                ✅ <strong>Backend detectado!</strong> Tudo
+                configurado automaticamente.
               </p>
             </div>
           </CardContent>
@@ -150,7 +174,8 @@ export default function AdminSetup() {
               CRIAR PRIMEIRO ADMIN
             </CardTitle>
             <CardDescription className="text-cyan-400/70 text-center">
-              Configure o usuário administrador para acessar o painel
+              Configure o usuário administrador para acessar o
+              painel
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -159,13 +184,23 @@ export default function AdminSetup() {
                 <div className="mx-auto w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center">
                   <CheckCircle className="w-10 h-10 text-green-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Admin Criado!</h3>
-                <p className="text-slate-400">Redirecionando para login...</p>
+                <h3 className="text-2xl font-bold text-white">
+                  Admin Criado!
+                </h3>
+                <p className="text-slate-400">
+                  Redirecionando para login...
+                </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6"
+              >
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-white/90 font-semibold">
+                  <Label
+                    htmlFor="name"
+                    className="text-white/90 font-semibold"
+                  >
                     Nome Completo
                   </Label>
                   <Input
@@ -173,14 +208,22 @@ export default function AdminSetup() {
                     type="text"
                     placeholder="Ex: Fernando Branco"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        name: e.target.value,
+                      })
+                    }
                     required
                     className="bg-slate-950/50 border-cyan-500/30 text-white placeholder:text-white/30 focus:border-cyan-400 focus:ring-cyan-400/20"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-white/90 font-semibold">
+                  <Label
+                    htmlFor="email"
+                    className="text-white/90 font-semibold"
+                  >
                     Email
                   </Label>
                   <Input
@@ -188,37 +231,57 @@ export default function AdminSetup() {
                     type="email"
                     placeholder="seu@email.com"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        email: e.target.value,
+                      })
+                    }
                     required
                     className="bg-slate-950/50 border-cyan-500/30 text-white placeholder:text-white/30 focus:border-cyan-400 focus:ring-cyan-400/20"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white/90 font-semibold">
+                  <Label
+                    htmlFor="password"
+                    className="text-white/90 font-semibold"
+                  >
                     Senha (mínimo 8 caracteres)
                   </Label>
                   <div className="relative">
                     <Input
                       id="password"
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
                       value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          password: e.target.value,
+                        })
+                      }
                       minLength={8}
                       required
                       className="bg-slate-950/50 border-cyan-500/30 text-white placeholder:text-white/30 focus:border-cyan-400 focus:ring-cyan-400/20 pr-12"
                     />
                     <button
                       type="button"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() =>
+                        setShowPassword(!showPassword)
+                      }
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-cyan-400/50 hover:text-cyan-400"
                     >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      {showPassword ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
                   <p className="text-xs text-slate-500">
-                    Use uma senha forte com letras, números e símbolos
+                    Use uma senha forte com letras, números e
+                    símbolos
                   </p>
                 </div>
 
@@ -234,14 +297,14 @@ export default function AdminSetup() {
                         CRIANDO ADMIN...
                       </>
                     ) : (
-                      'CRIAR ADMIN'
+                      "CRIAR ADMIN"
                     )}
                   </Button>
 
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => navigate('/admin/login')}
+                    onClick={() => navigate("/admin/login")}
                     className="w-full border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10"
                   >
                     Já tenho conta - Fazer Login
@@ -258,21 +321,27 @@ export default function AdminSetup() {
             <div className="grid md:grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-3xl mb-2">🔐</div>
-                <h4 className="text-white font-bold mb-1">Seguro</h4>
+                <h4 className="text-white font-bold mb-1">
+                  Seguro
+                </h4>
                 <p className="text-xs text-slate-400">
                   Autenticação com Supabase
                 </p>
               </div>
               <div>
                 <div className="text-3xl mb-2">⚡</div>
-                <h4 className="text-white font-bold mb-1">Rápido</h4>
+                <h4 className="text-white font-bold mb-1">
+                  Rápido
+                </h4>
                 <p className="text-xs text-slate-400">
                   Setup em menos de 1 minuto
                 </p>
               </div>
               <div>
                 <div className="text-3xl mb-2">📊</div>
-                <h4 className="text-white font-bold mb-1">Completo</h4>
+                <h4 className="text-white font-bold mb-1">
+                  Completo
+                </h4>
                 <p className="text-xs text-slate-400">
                   Dashboard + Editor + Analytics
                 </p>
