@@ -1,11 +1,28 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 
-// Create Supabase client for frontend
-export const supabase = createClient(
-  `https://${projectId}.supabase.co`,
-  publicAnonKey
-);
+// Singleton instance
+let supabaseInstance: SupabaseClient | null = null;
+
+// Create Supabase client for frontend (singleton pattern)
+export const supabase = (() => {
+  if (!supabaseInstance) {
+    supabaseInstance = createClient(
+      `https://${projectId}.supabase.co`,
+      publicAnonKey,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true,
+          storageKey: 'sb-fernando-portfolio-auth',
+          storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+        },
+      }
+    );
+  }
+  return supabaseInstance;
+})();
 
 // API base URL
 export const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/make-server-67983b2b`;
