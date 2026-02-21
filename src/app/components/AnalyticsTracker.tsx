@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 
-const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/make-server-67983b2b`;
+const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server/make-server-67983b2b`;
 
 export function AnalyticsTracker() {
   useEffect(() => {

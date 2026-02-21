@@ -25,7 +25,7 @@ export const supabase = (() => {
 })();
 
 // API base URL
-export const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/make-server-67983b2b`;
+export const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server/make-server-67983b2b`;
 
 // Helper function to make authenticated requests
 export async function apiRequest(endpoint: string, options: RequestInit = {}) {

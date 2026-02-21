@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
-import { projectId, publicAnonKey } from '/utils/supabase/info';
+import { useNavigate, Link } from 'react-router';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { toast } from 'sonner';
 import { UserPlus, Loader2, CheckCircle, Copy, Eye, EyeOff } from 'lucide-react';
+import { projectId, publicAnonKey } from '/utils/supabase/info';
 
-const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/make-server-67983b2b`;
+const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server/make-server-67983b2b`;
 
 export default function AdminSetup() {
   const navigate = useNavigate();
