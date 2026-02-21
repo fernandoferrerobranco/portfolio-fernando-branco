@@ -1,31 +1,41 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 
-// Singleton instance
-let supabaseInstance: SupabaseClient | null = null;
+// Garantir que seja um singleton GLOBAL (não apenas no módulo)
+const GLOBAL_KEY = '__FERNANDO_PORTFOLIO_SUPABASE__';
 
-// Create Supabase client for frontend (singleton pattern)
-export const supabase = (() => {
-  if (!supabaseInstance) {
-    supabaseInstance = createClient(
-      `https://${projectId}.supabase.co`,
-      publicAnonKey,
-      {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true,
-          storageKey: 'sb-fernando-portfolio-auth',
-          storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-        },
-      }
-    );
+// Função para obter/criar a instância global
+function getSupabaseInstance(): SupabaseClient {
+  // Verificar se já existe no window (navegador)
+  if (typeof window !== 'undefined') {
+    if (!(window as any)[GLOBAL_KEY]) {
+      (window as any)[GLOBAL_KEY] = createClient(
+        `https://${projectId}.supabase.co`,
+        publicAnonKey,
+        {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+            storageKey: 'sb-fernando-portfolio-auth',
+            storage: window.localStorage,
+          },
+        }
+      );
+      console.log('✅ Supabase client created (singleton)');
+    }
+    return (window as any)[GLOBAL_KEY];
   }
-  return supabaseInstance;
-})();
+
+  // Fallback para SSR (não deve acontecer neste projeto)
+  throw new Error('Supabase client can only be created in browser context');
+}
+
+// Export do singleton
+export const supabase = getSupabaseInstance();
 
 // API base URL
-export const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server/make-server-67983b2b`;
+export const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server`;
 
 // Helper function to make authenticated requests
 export async function apiRequest(endpoint: string, options: RequestInit = {}) {
