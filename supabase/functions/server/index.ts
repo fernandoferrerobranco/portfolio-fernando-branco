@@ -82,7 +82,6 @@ app.post("/make-server-67983b2b/auth/signup", async (c) => {
       email,
       password,
       user_metadata: { name },
-      // Automatically confirm the user's email since an email server hasn't been configured
       email_confirm: true
     });
 
@@ -140,7 +139,6 @@ app.post("/make-server-67983b2b/analytics/pageview", async (c) => {
     const { page, referrer, userAgent } = await c.req.json();
     const timestamp = new Date().toISOString();
     
-    // Get current analytics
     const todayKey = `analytics:${new Date().toISOString().split('T')[0]}`;
     const todayData = await kv.get(todayKey) || {
       totalViews: 0,
@@ -149,7 +147,6 @@ app.post("/make-server-67983b2b/analytics/pageview", async (c) => {
       referrers: {},
     };
     
-    // Update analytics
     todayData.totalViews = (todayData.totalViews || 0) + 1;
     todayData.pageViews[page] = (todayData.pageViews[page] || 0) + 1;
     
@@ -191,7 +188,6 @@ app.get("/make-server-67983b2b/analytics/dashboard", requireAuth, async (c) => {
     const today = new Date().toISOString().split('T')[0];
     const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
     
-    // Get last 30 days of analytics
     const last30Days = [];
     for (let i = 0; i < 30; i++) {
       const date = new Date(Date.now() - i * 86400000).toISOString().split('T')[0];
@@ -204,7 +200,6 @@ app.get("/make-server-67983b2b/analytics/dashboard", requireAuth, async (c) => {
     const analyticsData = await kv.mget(analyticsKeys);
     const downloadData = await kv.mget(downloadKeys);
     
-    // Calculate totals
     let totalViews = 0;
     let totalDownloads = 0;
     const dailyStats = [];
@@ -221,14 +216,12 @@ app.get("/make-server-67983b2b/analytics/dashboard", requireAuth, async (c) => {
           downloads: downloadData[index]?.total || 0,
         });
         
-        // Aggregate page views
         if (data.pageViews) {
           Object.entries(data.pageViews).forEach(([page, count]) => {
             topPages[page] = (topPages[page] || 0) + count;
           });
         }
         
-        // Aggregate referrers
         if (data.referrers) {
           Object.entries(data.referrers).forEach(([ref, count]) => {
             topReferrers[ref] = (topReferrers[ref] || 0) + count;
@@ -243,7 +236,6 @@ app.get("/make-server-67983b2b/analytics/dashboard", requireAuth, async (c) => {
       }
     });
     
-    // Sort top pages and referrers
     const sortedPages = Object.entries(topPages)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 10)
@@ -259,7 +251,7 @@ app.get("/make-server-67983b2b/analytics/dashboard", requireAuth, async (c) => {
       data: {
         totalViews,
         totalDownloads,
-        dailyStats: dailyStats.reverse(), // Most recent first
+        dailyStats: dailyStats.reverse(),
         topPages: sortedPages,
         topReferrers: sortedReferrers,
       }
