@@ -1,3 +1,9 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
 import { toast } from 'sonner';
 import { UserPlus, Loader2, CheckCircle, Copy, Eye, EyeOff } from 'lucide-react';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
