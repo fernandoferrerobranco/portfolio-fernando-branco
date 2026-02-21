@@ -33,19 +33,40 @@ app.use(
 async function requireAuth(c: any, next: any) {
   const accessToken = c.req.header('Authorization')?.split(' ')[1];
   
+  console.log('🔐 requireAuth debug:', {
+    hasAuthHeader: !!c.req.header('Authorization'),
+    hasToken: !!accessToken,
+    tokenPreview: accessToken ? `${accessToken.substring(0, 30)}...` : 'NO TOKEN',
+    supabaseUrl: Deno.env.get('SUPABASE_URL'),
+    hasServiceRoleKey: !!Deno.env.get('SUPABASE_SERVICE_ROLE_KEY'),
+  });
+  
   if (!accessToken) {
+    console.error('❌ No token provided in Authorization header');
     return c.json({ error: 'Unauthorized - No token provided' }, 401);
   }
 
-  const { data: { user }, error } = await supabase.auth.getUser(accessToken);
-  
-  if (error || !user?.id) {
-    console.log('Authorization error:', error);
-    return c.json({ error: 'Unauthorized - Invalid token' }, 401);
-  }
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser(accessToken);
+    
+    console.log('🔐 getUser result:', {
+      hasUser: !!user,
+      userId: user?.id,
+      userEmail: user?.email,
+      error: error ? error.message : 'no error',
+    });
+    
+    if (error || !user?.id) {
+      console.error('❌ Authorization error:', error);
+      return c.json({ error: `Unauthorized - Invalid token: ${error?.message}` }, 401);
+    }
 
-  c.set('userId', user.id);
-  await next();
+    c.set('userId', user.id);
+    await next();
+  } catch (err) {
+    console.error('❌ Auth exception:', err);
+    return c.json({ error: `Auth failed: ${err}` }, 401);
+  }
 }
 
 // ========================================
