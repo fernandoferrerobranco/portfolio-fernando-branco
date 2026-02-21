@@ -1,59 +1,28 @@
 import { useEffect, useState } from 'react';
 import { MapPin, Mail } from 'lucide-react';
 import { Language, translations } from '../data/translations';
+import { loadData } from '../../lib/storage';
 
 interface HeroSectionProps {
   language: Language;
 }
 
-interface HeroData {
-  badge: string;
-  title1: string;
-  title2: string;
-  title3: string;
-  title4: string;
-  title5: string;
-  location: string;
-  email: string;
-  cardName: string;
-  cardRole: string;
-}
-
 export function HeroSection({ language }: HeroSectionProps) {
   const t = translations[language].hero;
-  const [heroData, setHeroData] = useState<HeroData | null>(null);
+  const [heroData, setHeroData] = useState(loadData().hero);
 
   useEffect(() => {
-    // Carregar dados do localStorage (se existirem)
-    const loadData = () => {
-      try {
-        const saved = localStorage.getItem('portfolio_hero');
-        if (saved) {
-          setHeroData(JSON.parse(saved));
-        }
-      } catch (error) {
-        console.error('Erro ao carregar dados do Hero:', error);
-      }
+    // Recarregar dados quando storage mudar
+    const handleStorageChange = () => {
+      setHeroData(loadData().hero);
     };
 
-    loadData();
-
-    // Listener para mudanças no localStorage (quando salvar no admin)
-    window.addEventListener('storage', loadData);
-    return () => window.removeEventListener('storage', loadData);
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // Usar dados do localStorage ou fallback para tradução
-  const badge = heroData?.badge || t.badge;
-  const title1 = heroData?.title1 || t.title1;
-  const title2 = heroData?.title2 || t.title2;
-  const title3 = heroData?.title3 || t.title3;
-  const title4 = heroData?.title4 || t.title4;
-  const title5 = heroData?.title5 || t.title5;
-  const location = heroData?.location || t.location;
-  const email = heroData?.email || 'fernando@g2g.org.br';
-  const cardName = heroData?.cardName || t.cardName;
-  const cardRole = heroData?.cardRole || t.cardRole;
+  // Usar dados do storage
+  const { badge, title1, title2, title3, title4, title5, location, email, cardName, cardRole } = heroData;
 
   return (
     <header className="hero-gradient min-h-screen flex items-center pt-20 relative overflow-hidden">
