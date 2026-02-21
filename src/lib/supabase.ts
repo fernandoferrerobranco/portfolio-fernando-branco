@@ -15,6 +15,17 @@ export async function apiRequest(endpoint: string, options: RequestInit = {}) {
   const session = await supabase.auth.getSession();
   const accessToken = session.data.session?.access_token;
 
+  console.log('🔐 apiRequest debug:', {
+    endpoint,
+    hasSession: !!session.data.session,
+    hasToken: !!accessToken,
+    tokenPreview: accessToken ? `${accessToken.substring(0, 20)}...` : 'NO TOKEN'
+  });
+
+  if (!accessToken) {
+    console.error('❌ No access token found! Session:', session);
+  }
+
   const headers = {
     'Content-Type': 'application/json',
     ...(accessToken && { 'Authorization': `Bearer ${accessToken}` }),
