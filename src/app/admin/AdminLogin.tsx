@@ -1,138 +1,114 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router';
-import { supabase } from '../../lib/supabase';
+import { useNavigate } from 'react-router';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { toast } from 'sonner';
-import { Lock, Mail, Loader2 } from 'lucide-react';
+import { Lock, Eye, EyeOff } from 'lucide-react';
+
+// SENHA PADRÃO - MUDE ISSO!
+const ADMIN_PASSWORD = 'admin123';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+    // Simular delay de autenticação
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-      if (error) {
-        console.error('Login error:', error);
-        toast.error('Falha no login', {
-          description: error.message,
-        });
-        return;
-      }
-
-      if (data.session) {
-        toast.success('Login realizado com sucesso!');
-        navigate('/admin');
-      }
-    } catch (error) {
-      console.error('Login exception:', error);
-      toast.error('Erro ao fazer login', {
-        description: 'Tente novamente mais tarde',
+    if (password === ADMIN_PASSWORD) {
+      // Salvar sessão no localStorage
+      localStorage.setItem('admin_authenticated', 'true');
+      toast.success('✅ Login realizado com sucesso!');
+      navigate('/admin');
+    } else {
+      toast.error('❌ Senha incorreta', {
+        description: 'Tente novamente.',
       });
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center p-4">
-      {/* Animated background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
-
-      <Card className="w-full max-w-md relative z-10 bg-slate-900/80 backdrop-blur-xl border-cyan-500/20">
-        <CardHeader className="space-y-3 text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mb-2">
-            <Lock className="w-8 h-8 text-white" />
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-600/5" />
+      
+      <Card className="w-full max-w-md bg-slate-900/80 backdrop-blur-xl border-cyan-500/20 shadow-2xl relative z-10">
+        <CardHeader className="text-center space-y-2">
+          <div className="w-20 h-20 mx-auto bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center mb-4">
+            <Lock className="w-10 h-10 text-slate-950" />
           </div>
+          
           <CardTitle className="text-3xl font-black text-white">
             PAINEL ADMIN
           </CardTitle>
-          <CardDescription className="text-cyan-400/70 text-sm">
-            Acesse para gerenciar seu portfólio
+          
+          <CardDescription className="text-slate-400">
+            Digite a senha para acessar o painel de administração
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-white/90 font-semibold">
-                Email
-              </Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="pl-11 bg-slate-950/50 border-cyan-500/30 text-white placeholder:text-white/30 focus:border-cyan-400 focus:ring-cyan-400/20"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-white/90 font-semibold">
+              <Label htmlFor="password" className="text-white font-semibold">
                 Senha
               </Label>
+              
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyan-400/50" />
                 <Input
                   id="password"
-                  type="password"
-                  placeholder="••••••••"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Digite a senha"
+                  className="bg-slate-800 border-slate-700 text-white pr-12"
                   required
-                  className="pl-11 bg-slate-950/50 border-cyan-500/30 text-white placeholder:text-white/30 focus:border-cyan-400 focus:ring-cyan-400/20"
+                  autoFocus
                 />
+                
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition"
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
               </div>
             </div>
 
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold py-6 text-lg tracking-wider"
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-black py-6 text-base"
             >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  ENTRANDO...
-                </>
-              ) : (
-                'ENTRAR'
-              )}
+              {loading ? 'Entrando...' : 'Entrar no Painel'}
             </Button>
+
+            <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-4 mt-6">
+              <p className="text-xs text-cyan-400 font-semibold mb-2">
+                💡 SENHA PADRÃO:
+              </p>
+              <code className="text-sm text-white font-mono bg-slate-950/50 px-3 py-1 rounded">
+                admin123
+              </code>
+              <p className="text-xs text-slate-400 mt-2">
+                Altere a senha no arquivo <code className="text-cyan-400">AdminLogin.tsx</code>
+              </p>
+            </div>
           </form>
-          
-          <div className="mt-6 text-center">
-            <p className="text-sm text-slate-400 mb-3">
-              Ainda não tem conta?
-            </p>
-            <Link to="/admin/setup">
-              <Button
-                variant="outline"
-                className="w-full border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300"
-              >
-                Criar Primeiro Admin
-              </Button>
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>

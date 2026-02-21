@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { MapPin, Mail } from 'lucide-react';
 import { Language, translations } from '../data/translations';
 
@@ -5,8 +6,54 @@ interface HeroSectionProps {
   language: Language;
 }
 
+interface HeroData {
+  badge: string;
+  title1: string;
+  title2: string;
+  title3: string;
+  title4: string;
+  title5: string;
+  location: string;
+  email: string;
+  cardName: string;
+  cardRole: string;
+}
+
 export function HeroSection({ language }: HeroSectionProps) {
   const t = translations[language].hero;
+  const [heroData, setHeroData] = useState<HeroData | null>(null);
+
+  useEffect(() => {
+    // Carregar dados do localStorage (se existirem)
+    const loadData = () => {
+      try {
+        const saved = localStorage.getItem('portfolio_hero');
+        if (saved) {
+          setHeroData(JSON.parse(saved));
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados do Hero:', error);
+      }
+    };
+
+    loadData();
+
+    // Listener para mudanças no localStorage (quando salvar no admin)
+    window.addEventListener('storage', loadData);
+    return () => window.removeEventListener('storage', loadData);
+  }, []);
+
+  // Usar dados do localStorage ou fallback para tradução
+  const badge = heroData?.badge || t.badge;
+  const title1 = heroData?.title1 || t.title1;
+  const title2 = heroData?.title2 || t.title2;
+  const title3 = heroData?.title3 || t.title3;
+  const title4 = heroData?.title4 || t.title4;
+  const title5 = heroData?.title5 || t.title5;
+  const location = heroData?.location || t.location;
+  const email = heroData?.email || 'fernando@g2g.org.br';
+  const cardName = heroData?.cardName || t.cardName;
+  const cardRole = heroData?.cardRole || t.cardRole;
 
   return (
     <header className="hero-gradient min-h-screen flex items-center pt-20 relative overflow-hidden">
@@ -15,15 +62,15 @@ export function HeroSection({ language }: HeroSectionProps) {
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
         <div data-aos="fade-right">
           <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[10px] mb-6 uppercase tracking-[0.3em]">
-            {t.badge}
+            {badge}
           </div>
           
           <h1 className="text-6xl md:text-7xl font-black text-white leading-none mb-6 tracking-tight">
-            <span className="block">{t.title1}</span>
-            <span className="block">{t.title2}</span>
-            <span className="block text-cyan-400 italic">{t.title3}</span>
-            <span className="block">{t.title4}</span>
-            <span className="block">{t.title5}</span>
+            <span className="block">{title1}</span>
+            <span className="block">{title2}</span>
+            <span className="block text-cyan-400 italic">{title3}</span>
+            <span className="block">{title4}</span>
+            <span className="block">{title5}</span>
           </h1>
           
           <div className="flex flex-wrap gap-6 mb-10">
@@ -31,13 +78,13 @@ export function HeroSection({ language }: HeroSectionProps) {
               <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center border border-slate-800">
                 <MapPin className="text-cyan-400" size={18} />
               </div>
-              <span className="text-sm font-medium text-slate-300">{t.location}</span>
+              <span className="text-sm font-medium text-slate-300">{location}</span>
             </div>
             <div className="flex items-center gap-3 text-slate-300">
               <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center border border-slate-800">
                 <Mail className="text-cyan-400" size={18} />
               </div>
-              <span className="text-sm font-medium">fernando@g2g.org.br</span>
+              <span className="text-sm font-medium">{email}</span>
             </div>
           </div>
           
@@ -78,10 +125,10 @@ export function HeroSection({ language }: HeroSectionProps) {
               </div>
               <div className="text-center">
                 <h2 className="text-2xl font-black italic tracking-tight text-white">
-                  {t.cardName}
+                  {cardName}
                 </h2>
                 <span className="text-cyan-400 font-bold text-[10px] uppercase tracking-[0.4em] mt-3 block">
-                  {t.cardRole}
+                  {cardRole}
                 </span>
               </div>
             </div>

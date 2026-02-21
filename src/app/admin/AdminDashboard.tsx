@@ -1,325 +1,265 @@
-import { useEffect, useState } from 'react';
-import { apiRequest } from '../../lib/supabase';
+import { Link } from 'react-router';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { toast } from 'sonner';
+import { Button } from '../components/ui/button';
 import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
-import {
-  Eye,
+  Home,
+  FileEdit,
+  Briefcase,
+  Award,
+  GraduationCap,
+  Languages,
+  MessageSquare,
   Download,
-  TrendingUp,
-  FileText,
-  Loader2,
-  Activity,
+  Link2,
+  CheckCircle2,
+  Circle,
+  Eye,
+  Settings,
 } from 'lucide-react';
-import { Counter } from '../components/Counter';
 
-interface DashboardData {
-  totalViews: number;
-  totalDownloads: number;
-  dailyStats: Array<{ date: string; views: number; downloads: number }>;
-  topPages: Array<{ page: string; count: number }>;
-  topReferrers: Array<{ referrer: string; count: number }>;
-}
+const sections = [
+  { 
+    path: '/admin/editor/hero', 
+    label: 'Hero Section', 
+    icon: Home,
+    description: 'Títulos, badge, email e localização',
+    implemented: true,
+  },
+  { 
+    path: '/admin/editor/about', 
+    label: 'Sobre Mim', 
+    icon: FileEdit,
+    description: 'Perfil, trajetória e especialidades',
+    implemented: false,
+  },
+  { 
+    path: '/admin/editor/experiences', 
+    label: 'Experiências', 
+    icon: Briefcase,
+    description: 'Histórico profissional detalhado',
+    implemented: false,
+  },
+  { 
+    path: '/admin/editor/skills', 
+    label: 'Habilidades', 
+    icon: Award,
+    description: 'Skills técnicas e competências',
+    implemented: false,
+  },
+  { 
+    path: '/admin/editor/education', 
+    label: 'Formação', 
+    icon: GraduationCap,
+    description: 'Graduação e certificações',
+    implemented: false,
+  },
+  { 
+    path: '/admin/editor/languages', 
+    label: 'Idiomas', 
+    icon: Languages,
+    description: 'Proficiência em idiomas',
+    implemented: false,
+  },
+  { 
+    path: '/admin/editor/testimonials', 
+    label: 'Depoimentos', 
+    icon: MessageSquare,
+    description: 'Feedback de clientes/parceiros',
+    implemented: false,
+  },
+  { 
+    path: '/admin/editor/downloads', 
+    label: 'Downloads', 
+    icon: Download,
+    description: 'Currículo e materiais',
+    implemented: false,
+  },
+  { 
+    path: '/admin/editor/social', 
+    label: 'Links Sociais', 
+    icon: Link2,
+    description: 'Redes sociais e contatos',
+    implemented: false,
+  },
+];
 
 export default function AdminDashboard() {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<DashboardData | null>(null);
-
-  useEffect(() => {
-    loadDashboard();
-  }, []);
-
-  const loadDashboard = async () => {
-    try {
-      const response = await apiRequest('/analytics/dashboard');
-      setData(response.data);
-    } catch (error) {
-      console.error('Dashboard error:', error);
-      toast.error('Erro ao carregar dashboard', {
-        description: 'Tente novamente mais tarde',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
-      </div>
-    );
-  }
-
-  if (!data) {
-    return (
-      <div className="text-center text-slate-400 min-h-[60vh] flex items-center justify-center">
-        <div>
-          <Activity className="w-12 h-12 mx-auto mb-4 text-cyan-400/50" />
-          <p>Nenhum dado disponível ainda.</p>
-          <p className="text-sm mt-2">Os dados aparecerão conforme os visitantes acessarem seu portfólio.</p>
-        </div>
-      </div>
-    );
-  }
-
-  const stats = [
-    {
-      name: 'Visualizações Totais',
-      value: data.totalViews,
-      icon: Eye,
-      color: 'cyan',
-      description: 'Últimos 30 dias',
-    },
-    {
-      name: 'Downloads de Currículo',
-      value: data.totalDownloads,
-      icon: Download,
-      color: 'blue',
-      description: 'Total de downloads',
-    },
-    {
-      name: 'Páginas Únicas',
-      value: data.topPages.length,
-      icon: FileText,
-      color: 'purple',
-      description: 'Seções visitadas',
-    },
-    {
-      name: 'Fontes de Tráfego',
-      value: data.topReferrers.length,
-      icon: TrendingUp,
-      color: 'green',
-      description: 'Origens diferentes',
-    },
-  ];
+  const implementedCount = sections.filter(s => s.implemented).length;
+  const totalCount = sections.length;
+  const progress = Math.round((implementedCount / totalCount) * 100);
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-4xl font-black text-white tracking-tight">
-          DASHBOARD
+          PAINEL ADMIN
         </h1>
         <p className="text-slate-400 mt-2">
-          Acompanhe as métricas e performance do seu portfólio
+          Gerencie o conteúdo do seu portfólio de forma visual
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card
-              key={stat.name}
-              className="bg-slate-900/50 border-cyan-500/20 hover:border-cyan-500/40 transition-all"
+      {/* Quick Actions */}
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-500/30 hover:border-cyan-400/50 transition-all">
+          <CardHeader>
+            <CardTitle className="text-white font-bold flex items-center gap-2">
+              <Eye className="w-5 h-5 text-cyan-400" />
+              Visualizar Site
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-slate-300 mb-4">
+              Veja como está ficando o portfólio
+            </p>
+            <Button 
+              asChild
+              className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black"
             >
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
-                  {stat.name}
-                </CardTitle>
-                <div className={`p-2 rounded-lg bg-${stat.color}-500/10`}>
-                  <Icon className={`h-5 w-5 text-${stat.color}-400`} />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-4xl font-black text-white mb-1">
-                  <Counter end={stat.value} duration={2000} />
-                </div>
-                <p className="text-xs text-slate-500">{stat.description}</p>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* Charts Grid */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Views Over Time */}
-        <Card className="bg-slate-900/50 border-cyan-500/20">
-          <CardHeader>
-            <CardTitle className="text-white font-bold">Visualizações ao Longo do Tempo</CardTitle>
-            <CardDescription className="text-slate-400">
-              Últimos 30 dias
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={data.dailyStats}>
-                <defs>
-                  <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis
-                  dataKey="date"
-                  stroke="#64748b"
-                  tick={{ fill: '#64748b', fontSize: 12 }}
-                  tickFormatter={(value) => {
-                    const date = new Date(value);
-                    return `${date.getDate()}/${date.getMonth() + 1}`;
-                  }}
-                />
-                <YAxis stroke="#64748b" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#0f172a',
-                    border: '1px solid #22d3ee',
-                    borderRadius: '8px',
-                    color: '#fff',
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="views"
-                  stroke="#06b6d4"
-                  strokeWidth={2}
-                  fillOpacity={1}
-                  fill="url(#colorViews)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+              <Link to="/" target="_blank">
+                Abrir Portfólio
+              </Link>
+            </Button>
           </CardContent>
         </Card>
 
-        {/* Downloads Over Time */}
         <Card className="bg-slate-900/50 border-cyan-500/20">
           <CardHeader>
-            <CardTitle className="text-white font-bold">Downloads de Currículo</CardTitle>
-            <CardDescription className="text-slate-400">
-              Últimos 30 dias
-            </CardDescription>
+            <CardTitle className="text-white font-bold flex items-center gap-2">
+              <Settings className="w-5 h-5 text-cyan-400" />
+              Progresso
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={data.dailyStats}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis
-                  dataKey="date"
-                  stroke="#64748b"
-                  tick={{ fill: '#64748b', fontSize: 12 }}
-                  tickFormatter={(value) => {
-                    const date = new Date(value);
-                    return `${date.getDate()}/${date.getMonth() + 1}`;
-                  }}
-                />
-                <YAxis stroke="#64748b" tick={{ fill: '#64748b', fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#0f172a',
-                    border: '1px solid #3b82f6',
-                    borderRadius: '8px',
-                    color: '#fff',
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="downloads"
-                  stroke="#3b82f6"
-                  strokeWidth={3}
-                  dot={{ fill: '#3b82f6', r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <div className="text-4xl font-black text-cyan-400 mb-2">
+              {implementedCount}/{totalCount}
+            </div>
+            <p className="text-sm text-slate-400">
+              Seções implementadas ({progress}%)
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-900/50 border-cyan-500/20">
+          <CardHeader>
+            <CardTitle className="text-white font-bold">Armazenamento</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-lg font-black text-white mb-2">
+              LocalStorage
+            </div>
+            <p className="text-sm text-slate-400">
+              Dados salvos no navegador
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Top Pages & Referrers */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Top Pages */}
-        <Card className="bg-slate-900/50 border-cyan-500/20">
-          <CardHeader>
-            <CardTitle className="text-white font-bold">Páginas Mais Visitadas</CardTitle>
-            <CardDescription className="text-slate-400">
-              Top 10 seções
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {data.topPages.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={data.topPages} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                  <XAxis type="number" stroke="#64748b" tick={{ fill: '#64748b', fontSize: 12 }} />
-                  <YAxis
-                    dataKey="page"
-                    type="category"
-                    stroke="#64748b"
-                    tick={{ fill: '#64748b', fontSize: 12 }}
-                    width={100}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#0f172a',
-                      border: '1px solid #06b6d4',
-                      borderRadius: '8px',
-                      color: '#fff',
-                    }}
-                  />
-                  <Bar dataKey="count" fill="#06b6d4" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="h-[300px] flex items-center justify-center text-slate-500">
-                Nenhum dado disponível
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Top Referrers */}
-        <Card className="bg-slate-900/50 border-cyan-500/20">
-          <CardHeader>
-            <CardTitle className="text-white font-bold">Fontes de Tráfego</CardTitle>
-            <CardDescription className="text-slate-400">
-              De onde vêm os visitantes
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {data.topReferrers.length > 0 ? (
-              <div className="space-y-3">
-                {data.topReferrers.map((ref, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border border-cyan-500/10 hover:border-cyan-500/30 transition-colors"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-white truncate">
-                        {ref.referrer || 'Direto'}
-                      </p>
+      {/* Sections Grid */}
+      <div>
+        <h2 className="text-2xl font-black text-white mb-6">SEÇÕES DO PORTFÓLIO</h2>
+        
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {sections.map((section) => {
+            const Icon = section.icon;
+            const StatusIcon = section.implemented ? CheckCircle2 : Circle;
+            
+            return (
+              <Card
+                key={section.path}
+                className={`
+                  bg-slate-900/50 border transition-all
+                  ${section.implemented 
+                    ? 'border-cyan-500/30 hover:border-cyan-400/50 cursor-pointer' 
+                    : 'border-slate-700/50 opacity-60'
+                  }
+                `}
+              >
+                <Link to={section.path} className="block">
+                  <CardHeader>
+                    <div className="flex items-start justify-between mb-2">
+                      <div className={`
+                        p-3 rounded-lg 
+                        ${section.implemented 
+                          ? 'bg-cyan-500/20' 
+                          : 'bg-slate-800/50'
+                        }
+                      `}>
+                        <Icon className={`
+                          w-6 h-6 
+                          ${section.implemented 
+                            ? 'text-cyan-400' 
+                            : 'text-slate-500'
+                          }
+                        `} />
+                      </div>
+                      
+                      <StatusIcon className={`
+                        w-5 h-5 
+                        ${section.implemented 
+                          ? 'text-green-400' 
+                          : 'text-slate-600'
+                        }
+                      `} />
                     </div>
-                    <div className="ml-4 flex-shrink-0">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-400">
-                        {ref.count}
+                    
+                    <CardTitle className="text-white font-bold text-lg">
+                      {section.label}
+                    </CardTitle>
+                    
+                    <CardDescription className="text-slate-400 text-sm">
+                      {section.description}
+                    </CardDescription>
+                  </CardHeader>
+                  
+                  <CardContent>
+                    {section.implemented ? (
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-green-400 bg-green-500/10 px-2 py-1 rounded">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Disponível
                       </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="h-[300px] flex items-center justify-center text-slate-500">
-                Nenhum dado disponível
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 bg-slate-800/50 px-2 py-1 rounded">
+                        <Circle className="w-3 h-3" />
+                        Em breve
+                      </span>
+                    )}
+                  </CardContent>
+                </Link>
+              </Card>
+            );
+          })}
+        </div>
       </div>
+
+      {/* Info Card */}
+      <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/20">
+        <CardHeader>
+          <CardTitle className="text-white font-bold">
+            💡 Como funciona?
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm text-slate-300">
+          <p>
+            <strong className="text-cyan-400">1.</strong> Clique em uma seção implementada (com ✅)
+          </p>
+          <p>
+            <strong className="text-cyan-400">2.</strong> Edite os campos do formulário
+          </p>
+          <p>
+            <strong className="text-cyan-400">3.</strong> Clique em "Salvar Alterações"
+          </p>
+          <p>
+            <strong className="text-cyan-400">4.</strong> As mudanças aparecem instantaneamente no site!
+          </p>
+          <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-3 mt-4">
+            <p className="text-xs text-cyan-400 font-semibold">
+              📦 Seus dados ficam salvos no navegador (LocalStorage)
+            </p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

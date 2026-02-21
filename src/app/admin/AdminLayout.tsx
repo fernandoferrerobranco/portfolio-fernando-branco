@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router';
-import { supabase } from '../../lib/supabase';
 import { Button } from '../components/ui/button';
 import { toast } from 'sonner';
 import {
@@ -38,39 +37,27 @@ export default function AdminLayout() {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     checkAuth();
   }, []);
 
-  const checkAuth = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate('/admin/login');
-        return;
-      }
-
-      setUser(session.user);
-    } catch (error) {
-      console.error('Auth check error:', error);
+  const checkAuth = () => {
+    // Verificar autenticação simples via localStorage
+    const isAuth = localStorage.getItem('admin_authenticated') === 'true';
+    
+    if (!isAuth) {
       navigate('/admin/login');
-    } finally {
-      setLoading(false);
+      return;
     }
+
+    setLoading(false);
   };
 
-  const handleLogout = async () => {
-    try {
-      await supabase.auth.signOut();
-      toast.success('Logout realizado com sucesso!');
-      navigate('/admin/login');
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast.error('Erro ao fazer logout');
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('admin_authenticated');
+    toast.success('Logout realizado com sucesso!');
+    navigate('/admin/login');
   };
 
   if (loading) {
@@ -123,8 +110,8 @@ export default function AdminLayout() {
               
               <li className="mt-auto">
                 <div className="p-4 bg-slate-800/50 rounded-lg border border-cyan-500/20">
-                  <p className="text-xs text-slate-400 mb-1">Logado como:</p>
-                  <p className="text-sm text-white font-semibold truncate">{user?.email}</p>
+                  <p className="text-xs text-slate-400 mb-1">Painel Admin</p>
+                  <p className="text-sm text-white font-semibold">Modo LocalStorage</p>
                 </div>
                 
                 <Button
