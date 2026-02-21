@@ -70,35 +70,6 @@ async function requireAuth(c: any, next: any) {
 }
 
 // ========================================
-// AUTH ROUTES (PUBLIC)
-// ========================================
-
-// Sign up new admin user (PUBLIC)
-app.post("/make-server-67983b2b/auth/signup", async (c) => {
-  try {
-    const { email, password, name } = await c.req.json();
-
-    const { data, error } = await supabase.auth.admin.createUser({
-      email,
-      password,
-      user_metadata: { name },
-      // Automatically confirm the user's email since an email server hasn't been configured
-      email_confirm: true
-    });
-
-    if (error) {
-      console.log('Signup error:', error);
-      return c.json({ error: `Failed to create user: ${error.message}` }, 400);
-    }
-
-    return c.json({ success: true, user: data.user });
-  } catch (error) {
-    console.log('Signup exception:', error);
-    return c.json({ error: `Signup failed: ${error}` }, 500);
-  }
-});
-
-// ========================================
 // CONTENT ROUTES
 // ========================================
 
@@ -274,7 +245,16 @@ app.get("/make-server-67983b2b/analytics/dashboard", requireAuth, async (c) => {
 // HEALTH CHECK (PUBLIC)
 // ========================================
 app.get("/make-server-67983b2b/health", (c) => {
-  return c.json({ status: "ok" });
+  return c.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// Test route - completamente aberta
+app.get("/make-server-67983b2b/test", (c) => {
+  return c.json({ 
+    message: "Test route works!", 
+    headers: Object.fromEntries(c.req.raw.headers.entries()),
+    timestamp: new Date().toISOString() 
+  });
 });
 
 Deno.serve(app.fetch);
