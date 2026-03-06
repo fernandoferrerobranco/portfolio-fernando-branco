@@ -1,0 +1,28 @@
+/* 🔇 Suprimir completamente warnings de fontes corrompidas do slick-carousel */
+
+/* Sobrescrever TODAS as tentativas de @font-face do slick */
+@font-face {
+  font-family: 'slick';
+  font-weight: normal;
+  font-style: normal;
+  src: url('data:font/woff;base64,') format('woff');
+  font-display: swap;
+}
+
+/* Prevenir carregamento de slick.woff e slick.ttf */
+.slick-prev:before,
+.slick-next:before {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+}
+
+/* Esconder ícones que dependem da fonte slick */
+.slick-prev,
+.slick-next {
+  background: transparent;
+  border: none;
+}
+
+.slick-dots li button:before {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+  content: '•' !important;
+}
