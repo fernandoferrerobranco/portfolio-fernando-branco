@@ -43,7 +43,7 @@ export function EditableHeroSection({ language }: EditableHeroSectionProps) {
 
   return (
     <>
-      <header className="hero-gradient min-h-screen flex items-center pt-20 relative overflow-hidden">
+      <header className="hero-gradient min-h-[600px] md:min-h-[700px] flex items-center pt-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-cyan-500/5 blur-[120px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">

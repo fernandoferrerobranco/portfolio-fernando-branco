@@ -11,10 +11,19 @@ import { LanguageToggle } from './components/LanguageToggle';
 import { ScrollToTop } from './components/ScrollToTop';
 import { AnalyticsTracker } from './components/AnalyticsTracker';
 import { GetProjectInfo } from './utils/getProjectInfo';
+import { useAdminSafe } from './context/AdminContext';
+import { loadData, type PortfolioData } from '../lib/storage';
 
-export default function Portfolio() {
+export default function Portfolio({ activeSection: activeFromAdmin }: { activeSection?: string | null } = {}) {
   const [language, setLanguage] = useState<Language>('pt');
+  const [portfolioData, setPortfolioData] = useState<PortfolioData>(loadData());
   const t = translations[language];
+  
+  // Usar activeSection passado como prop (do admin) OU tentar pegar do context (fallback)
+  const activeFromContext = useAdminSafe();
+  const activeSection = activeFromAdmin ?? activeFromContext;
+  
+  console.log(' Portfolio recebeu activeSection:', { activeFromAdmin, activeFromContext, final: activeSection });
   
   // Mostrar info do projeto em dev (remova depois)
   const [showDevInfo, setShowDevInfo] = useState(false);
@@ -26,10 +35,22 @@ export default function Portfolio() {
     const isLocalhost = window.location.hostname === 'localhost';
     const hasDevParam = window.location.search.includes('dev=true');
     setShowDevInfo(isLocalhost || hasDevParam);
+    
+    // ⚡ LISTENER: Escutar mudanças do admin em tempo real
+    const handleAdminUpdate = (event: any) => {
+      console.log('🔥 Portfolio - Evento admin-preview-update recebido!', event.detail);
+      setPortfolioData(event.detail);
+    };
+    
+    window.addEventListener('admin-preview-update', handleAdminUpdate);
+    
+    return () => {
+      window.removeEventListener('admin-preview-update', handleAdminUpdate);
+    };
   }, []);
 
   return (
-    <div className="antialiased">
+    <div className="antialiased w-full min-h-screen">
       {/* Analytics Tracking */}
       <AnalyticsTracker />
       
@@ -37,7 +58,7 @@ export default function Portfolio() {
       {showDevInfo && <GetProjectInfo />}
       
       {/* Navigation */}
-      <nav className="fixed w-full z-50 glass-effect border-b border-white/5">
+      <nav className="w-full z-50 glass-effect border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <span className="text-xl font-black tracking-widest text-white uppercase italic">
             Fernando Branco <span className="text-cyan-400">_</span>
@@ -61,12 +82,12 @@ export default function Portfolio() {
 
       {/* Hero Section */}
       <HeroSection language={language} />
-
+      
       {/* Trajectory Section */}
-      <TrajetoriaSection language={language} />
+      <TrajetoriaSection language={language} activeSection={activeSection} />
 
       {/* Detailed Experiences */}
-      <ExperiencesSection language={language} />
+      <ExperiencesSection language={language} activeSection={activeSection} />
 
       {/* Testimonials */}
       <DepoimentosSection language={language} />

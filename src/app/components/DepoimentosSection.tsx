@@ -18,10 +18,15 @@ export function DepoimentosSection({ language }: DepoimentosSectionProps) {
   return (
     <section className="py-24 bg-slate-900/30 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
+        {/* Título da Seção */}
         <div className="text-center mb-16">
-          <h2 className="text-xs font-black uppercase tracking-[0.3em] text-cyan-500 mb-4 italic underline underline-offset-8 decoration-cyan-500/20">
-            {t.title}
+          <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
+            {language === 'pt' ? 'Depoimentos' : 'Testimonials'}{' '}
+            <span className="text-cyan-400 italic">
+              {language === 'pt' ? 'Reais' : 'Real'}
+            </span>
           </h2>
+          <div className="h-[2px] w-32 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mb-4"></div>
           <p className="text-slate-400 text-sm mb-4 max-w-2xl mx-auto">
             {t.subtitle}
           </p>
@@ -33,8 +38,6 @@ export function DepoimentosSection({ language }: DepoimentosSectionProps) {
             <div 
               key={idx}
               className="group border border-slate-800 rounded-sm p-8 hover:border-cyan-500/30 hover:bg-slate-900/30 transition-all duration-300 relative"
-              data-aos="fade-up"
-              data-aos-delay={idx * 100}
             >
               {/* Quote Icon */}
               <div className="absolute -top-4 -left-4 w-12 h-12 rounded-sm bg-slate-950 border border-cyan-500/20 flex items-center justify-center">

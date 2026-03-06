@@ -5,6 +5,10 @@ const API_BASE_URL = `https://${projectId}.supabase.co/functions/v1/server`;
 
 export function AnalyticsTracker() {
   useEffect(() => {
+    // ⚠️ TEMPORARIAMENTE DESABILITADO - rota /analytics/pageview não existe
+    console.log('📊 Analytics desabilitado temporariamente');
+    return;
+    
     // Track page view
     trackPageView();
 

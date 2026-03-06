@@ -1,14 +1,19 @@
 import { createBrowserRouter } from "react-router";
 import Portfolio from "./Portfolio";
-import Admin from "./Admin";
+import AdminLogin from "./AdminLogin";
+import AdminDashboard from "./AdminDashboard";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: Portfolio,
+    element: <Portfolio />,
   },
   {
     path: "/admin",
-    Component: Admin,
+    element: <AdminLogin />,
+  },
+  {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />,
   },
 ]);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Network,
   MailOpen,
@@ -48,29 +48,108 @@ import {
 import { AccordionItem } from './AccordionItem';
 import { Language, translations } from '../data/translations';
 import { experiencesData } from '../data/experiences';
+import { loadData, type PortfolioData } from '../../lib/storage';
 
 interface ExperiencesSectionProps {
   language: Language;
+  activeSection?: string | null; // 🎯 Adicionar suporte para highlighting
 }
 
-export function ExperiencesSection({ language }: ExperiencesSectionProps) {
+export function ExperiencesSection({ language, activeSection }: ExperiencesSectionProps) {
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const [data, setData] = useState<PortfolioData>(loadData());
   const t = translations[language];
+
+  // 🔥 Escutar mudanças do admin
+  useEffect(() => {
+    const handleAdminUpdate = (event: any) => {
+      if (event.detail) {
+        setData(event.detail);
+      }
+    };
+    
+    window.addEventListener('admin-preview-update', handleAdminUpdate);
+    
+    return () => {
+      window.removeEventListener('admin-preview-update', handleAdminUpdate);
+    };
+  }, []);
+
+  // 🎯 Helper para highlight
+  const getHighlightClass = (sectionId: string) => {
+    const isActive = activeSection === sectionId;
+    return isActive
+      ? 'border-cyan-400 border-[3px] shadow-[0_0_60px_rgba(6,182,212,0.8),inset_0_0_30px_rgba(6,182,212,0.3)] scale-[1.01] bg-cyan-500/10' 
+      : '';
+  };
 
   const toggleAccordion = (id: string) => {
     setOpenAccordion(openAccordion === id ? null : id);
   };
 
   return (
-    <section id="experiencia" className="py-24 bg-slate-950/50 border-t border-white/5">
-      <div className="max-w-5xl mx-auto px-6">
-        <h2 className="text-xs font-black uppercase tracking-[0.3em] text-cyan-500 mb-16 text-center italic underline underline-offset-8 decoration-cyan-500/20">
-          {t.sections.detailedExp}
-        </h2>
+    <section id="experiencias" className="py-32 relative">
+      {/* BG GRID */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-950/10 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
+        {/* Título da Seção */}
+        <div className="text-center mb-16">
+          <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
+            {language === 'pt' ? 'Experiências' : 'Experiences'}{' '}
+            <span className="text-cyan-400 italic">
+              {language === 'pt' ? 'Detalhadas' : 'Detailed'}
+            </span>
+          </h2>
+          <div className="h-[2px] w-32 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto"></div>
+        </div>
 
         <div className="space-y-4">
+          {/* 🆕 EXPERIÊNCIAS EDITÁVEIS (do admin) */}
+          {data.experiences.map((exp) => (
+            <div
+              key={exp.id}
+              id={`exp-${exp.id}`}
+              className={`glass-effect rounded-sm tech-glow p-8 transition-all ${getHighlightClass(`exp-${exp.id}`)}`}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-1">
+                    {exp.company}
+                  </h3>
+                  <p className="text-xs text-slate-400 font-black uppercase tracking-[0.2em]">
+                    {exp.role}
+                  </p>
+                  <span className="inline-block mt-2 text-[10px] font-black bg-cyan-500 text-slate-950 px-3 py-1 rounded-sm uppercase tracking-widest">
+                    {exp.period}
+                  </span>
+                </div>
+              </div>
+              
+              <p className="text-sm leading-relaxed text-slate-100 font-light mb-4">
+                {exp.description}
+              </p>
+              
+              {exp.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {exp.tags.map((tag, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded-sm text-xs font-semibold"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* EXPERIÊNCIAS HARDCODED (antigas) */}
           {/* FICTORPAY */}
           <AccordionItem
+            id="fictorpay"
             dateColor={experiencesData[0].dateColor}
             dateRange={experiencesData[0].dateRange}
             company={experiencesData[0].company}
@@ -81,6 +160,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.fictorpay.scope}
             isOpen={openAccordion === 'fictorpay'}
             onToggle={() => toggleAccordion('fictorpay')}
+            className={getHighlightClass('fictorpay')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
@@ -118,6 +198,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.shopee.scope}
             isOpen={openAccordion === 'shopee'}
             onToggle={() => toggleAccordion('shopee')}
+            className={getHighlightClass('shopee')}
           >
             <div>
               {/* Timeline de Promoções */}
@@ -192,6 +273,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.comgas.scope}
             isOpen={openAccordion === 'comgas'}
             onToggle={() => toggleAccordion('comgas')}
+            className={getHighlightClass('comgas')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-blue-500/10 border border-blue-500/20 text-blue-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
@@ -229,6 +311,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.bearts.scope}
             isOpen={openAccordion === 'bearts'}
             onToggle={() => toggleAccordion('bearts')}
+            className={getHighlightClass('bearts')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-slate-500/10 border border-slate-500/20 text-slate-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
@@ -266,6 +349,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.baermate.scope}
             isOpen={openAccordion === 'baermate'}
             onToggle={() => toggleAccordion('baermate')}
+            className={getHighlightClass('baermate')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-lime-500/10 border border-lime-500/20 text-lime-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
@@ -303,6 +387,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.puffbr.scope}
             isOpen={openAccordion === 'puffbr'}
             onToggle={() => toggleAccordion('puffbr')}
+            className={getHighlightClass('puffbr')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
@@ -340,6 +425,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.get2gether.scope}
             isOpen={openAccordion === 'get2gether'}
             onToggle={() => toggleAccordion('get2gether')}
+            className={getHighlightClass('get2gether')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
@@ -377,6 +463,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.futuregroup.scope}
             isOpen={openAccordion === 'futuregroup'}
             onToggle={() => toggleAccordion('futuregroup')}
+            className={getHighlightClass('futuregroup')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-slate-500/10 border border-slate-500/20 text-slate-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
@@ -414,6 +501,7 @@ export function ExperiencesSection({ language }: ExperiencesSectionProps) {
             scope={t.experiences.tvglobo.scope}
             isOpen={openAccordion === 'tvglobo'}
             onToggle={() => toggleAccordion('tvglobo')}
+            className={getHighlightClass('tvglobo')}
           >
             <div>
               <div className="inline-block px-3 py-1 rounded-sm bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">

@@ -65,6 +65,9 @@ export interface TranslationContent {
       label4: string;
       label5: string;
       label6: string;
+      label7: string;
+      label8: string;
+      label9: string;
     };
     bento: {
       card1: { title: string; desc: string };

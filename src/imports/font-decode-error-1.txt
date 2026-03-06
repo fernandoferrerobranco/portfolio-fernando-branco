@@ -1,0 +1,43 @@
+Failed to decode downloaded font: <URL>,Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getDocumentDirection @ sonner.js:784Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getWidth2 @ react-slick.js:436Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getDocumentDirection @ sonner.js:784Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getWidth2 @ react-slick.js:436Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+o @ aos.js:284Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getDocumentDirection @ sonner.js:784Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getWidth2 @ react-slick.js:436Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getDocumentDirection @ sonner.js:784Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getWidth2 @ react-slick.js:436Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+o @ aos.js:284Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getDocumentDirection @ sonner.js:784Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getWidth2 @ react-slick.js:436Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getDocumentDirection @ sonner.js:784Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+getWidth2 @ react-slick.js:436Understand this warning
+ Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,
+o @ aos.js:284Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,Understand this warning
+dashboard:1 Failed to decode downloaded font: data:application/font-woff;charset=utf-8;base64,

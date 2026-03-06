@@ -1,5 +1,14 @@
 @custom-variant dark (&:is(.dark *));
 
+/* Suprimir warnings de fontes corrompidas do slick-carousel */
+@font-face {
+  font-family: 'slick';
+  font-display: swap;
+  src: url('data:application/font-woff;charset=utf-8;base64,') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --font-size: 16px;
   --background: #ffffff;
@@ -177,5 +186,11 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+
+  /* 🎯 Scroll com respiro para todos os elementos com ID (ancoras do admin) */
+  /* Navbar portfolio (~60px) = ~60px total */
+  [id] {
+    scroll-margin-top: 80px;
   }
 }

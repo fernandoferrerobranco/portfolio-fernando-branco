@@ -12,6 +12,8 @@ interface AccordionItemProps {
   children: React.ReactNode;
   isOpen: boolean;
   onToggle: () => void;
+  id?: string; // 🎯 Opcional - para âncoras
+  className?: string; // 🎯 Opcional - para highlighting
 }
 
 export function AccordionItem({
@@ -26,11 +28,13 @@ export function AccordionItem({
   children,
   isOpen,
   onToggle,
+  id,
+  className = '',
 }: AccordionItemProps) {
   return (
     <div
-      className="glass-effect rounded-sm tech-glow transition-all"
-      data-aos="fade-up"
+      id={id}
+      className={`glass-effect rounded-sm tech-glow transition-all ${className}`}
     >
       <button
         className={`w-full p-10 flex justify-between items-center text-left ${

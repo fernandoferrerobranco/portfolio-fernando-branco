@@ -31,7 +31,7 @@ export const translations: Translations = {
       titleHighlight: 'TRAJETÓRIA',
       about: 'Sobre',
       profileText:
-        'Liderança estratégica com 19 anos de experiência em Marketing Operations (MarOps) e Gestão de Operações, especializado na arquitetura de processos e escalabilidade de negócios. Expert em transformar fluxos manuais em automações de alta performance (Pipefy, Workato, Excel), com histórico de gestão em ecossistemas complexos (Shopee, FictorPay, Comgás). Perfil orientado a dados e governança, com sólida habilidade em mediação de conflitos, gestão de stakeholders seniores e liderança de times multidisciplinares. Profissional autodidata e resiliente, focado em eficiência operacional e mitigação de riscos.',
+        'Especialista em orquestrar processos, dados e pessoas para viabilizar entregas de alto impacto. Com 15 anos de trajetória em empresas como Shopee, Comgás e Globo, atuo como o elo estratégico entre a visão de negócio e a execução técnica.\n\nMinha expertise une a sensibilidade do Branding à disciplina da Eficiência Operacional, combinando a escala de Big Techs à agilidade do mindset empreendedor. Com atuação regional em 5 países da América Latina, me especializei em viabilizar o Go-To-Market através de uma inteligência operacional que respeita a identidade da marca, organiza o caos e potencializa a lucratividade em cenários de alta complexidade.',
       bigNumbers: {
         label1: 'Anos\nExperiência',
         label2: 'Performance\nQuality',
@@ -39,6 +39,9 @@ export const translations: Translations = {
         label4: 'Países\nLATAM',
         label5: 'Vouchers\nem 8min',
         label6: 'Empresas\nLideradas',
+        label7: 'Leads\nGerados',
+        label8: 'ROI\nMédio',
+        label9: 'Campanhas\nLançadas',
       },
       bento: {
         card1: {
@@ -68,11 +71,10 @@ export const translations: Translations = {
       certifications: {
         title: 'CERTIFICAÇÕES',
         items: [
-          'Google Ads & Analytics',
-          'Meta Blueprint Certified',
-          'Pipefy Expert',
-          'HubSpot Inbound',
-          'Scrum Foundation',
+          'Liderança - Conquer',
+          'Business Intelligence - Conquer',
+          'Técnicas de Apresentação - Dale Carnegie',
+          'Inteligência Artificial - Cursiv',
         ],
       },
       languages: {
@@ -85,7 +87,7 @@ export const translations: Translations = {
       },
       skills: {
         title: 'COMPETÊNCIAS',
-        items: ['Excel Avançado', 'Automação', 'Data Analysis', 'Stakeholder Mgmt', 'Pipefy', 'Workato'],
+        items: ['MarOps', 'Inteligência de Negócios', 'Go to Market', 'Automação de Fluxos', 'Branding', 'Eficiência Operacional', 'Gestão de Stakeholders', 'Gestão de Projetos'],
       },
       timelineBadge: 'Overview Cronológico',
       timelineTitle: '',
@@ -556,7 +558,7 @@ export const translations: Translations = {
       titleHighlight: 'JOURNEY',
       about: 'About',
       profileText:
-        'Strategic leadership with 19 years of experience in Marketing Operations (MarOps) and Operations Management, specialized in process architecture and business scalability. Expert in transforming manual workflows into high-performance automations (Pipefy, Workato, Excel), with experience managing complex ecosystems (Shopee, FictorPay, Comgás). Data-driven and governance-oriented profile, with strong skills in conflict mediation, senior stakeholder management, and leading multidisciplinary teams. Self-taught and resilient professional, focused on operational efficiency and risk mitigation.',
+        'Specialist in orchestrating processes, data and people to enable high-impact deliveries. With 15 years of experience in companies such as Shopee, Comgás and Globo, I act as the strategic link between business vision and technical execution.\n\nMy expertise combines the sensitivity of Branding with the discipline of Operational Efficiency, merging Big Tech scale with the agility of an entrepreneurial mindset. With regional experience across 5 Latin American countries, I specialized in enabling Go-To-Market through operational intelligence that respects brand identity, organizes chaos and maximizes profitability in highly complex scenarios.',
       bigNumbers: {
         label1: 'Years\nExperience',
         label2: 'Performance\nQuality',
@@ -564,6 +566,9 @@ export const translations: Translations = {
         label4: 'Countries\nLATAM',
         label5: 'Vouchers\nin 8min',
         label6: 'Companies\nLed',
+        label7: 'Leads\nGenerated',
+        label8: 'Average\nROI',
+        label9: 'Campaigns\nLaunched',
       },
       bento: {
         card1: {
@@ -593,11 +598,10 @@ export const translations: Translations = {
       certifications: {
         title: 'CERTIFICATIONS',
         items: [
-          'Google Ads & Analytics',
-          'Meta Blueprint Certified',
-          'Pipefy Expert',
-          'HubSpot Inbound',
-          'Scrum Foundation',
+          'Leadership - Conquer',
+          'Business Intelligence - Conquer',
+          'Presentation Techniques - Dale Carnegie',
+          'Artificial Intelligence - Cursiv',
         ],
       },
       languages: {
@@ -610,7 +614,7 @@ export const translations: Translations = {
       },
       skills: {
         title: 'SKILLS',
-        items: ['Advanced Excel', 'Automation', 'Data Analysis', 'Stakeholder Mgmt', 'Pipefy', 'Workato'],
+        items: ['MarOps', 'Workflow Automation', 'Branding', 'Business Intelligence', 'Go to Market', 'Operational Efficiency', 'Stakeholder Management', 'Project Management'],
       },
       timelineBadge: 'Chronological Overview',
       timelineTitle: '',

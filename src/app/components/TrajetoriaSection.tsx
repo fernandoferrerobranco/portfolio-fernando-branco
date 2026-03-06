@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Slider from 'react-slick';
+import '../../styles/suppress-slick-fonts.css'; // 🔇 Importar ANTES dos CSS do slick
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { 
@@ -19,16 +20,91 @@ import {
 } from 'lucide-react';
 import { Counter } from './Counter';
 import { Language, translations } from '../data/translations';
+import { loadData } from '../../lib/storage';
+import { applyTextColor, applyBackgroundColor } from '../utils/applyStyles';
 
 interface TrajetoriaSectionProps {
   language: Language;
+  activeSection?: string | null; // ID da seção ativa vindo do admin
 }
 
-export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
+export function TrajetoriaSection({ language, activeSection }: TrajetoriaSectionProps) {
   const t = translations[language].trajectory;
   const tCases = translations[language].cases;
   const sliderRef = useRef<Slider>(null);
   const [hoveredCase, setHoveredCase] = useState<number | null>(null);
+  const [data, setData] = useState(loadData());
+
+  useEffect(() => {
+    // Recarregar dados quando storage mudar
+    const handleStorageChange = () => {
+      console.log('💾 TrajetoriaSection - Storage mudou');
+      setData(loadData());
+    };
+
+    // Listener para preview instantâneo (admin)
+    const handleAdminPreview = (e: any) => {
+      console.log('📢 TrajetoriaSection - Recebeu evento admin-preview-update:', {
+        aboutText: e.detail?.about?.aboutText_pt?.substring(0, 50) + '...',
+      });
+      if (e.detail) {
+        setData(e.detail);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('admin-preview-update', handleAdminPreview);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('admin-preview-update', handleAdminPreview);
+    };
+  }, []);
+
+  // 🎯 SCROLL AUTOMÁTICO quando activeSection mudar
+  useEffect(() => {
+    console.log('🎯 TrajetoriaSection - activeSection mudou:', activeSection);
+    if (activeSection) {
+      const element = document.getElementById(activeSection);
+      console.log('🔍 Elemento encontrado:', element);
+      if (element) {
+        console.log('✅ Scrollando para:', activeSection);
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        console.warn('❌ Elemento não encontrado:', activeSection);
+      }
+    }
+  }, [activeSection]);
+
+  const { about, aboutStyles } = data;
+  
+  // 🛡️ Fallback de segurança para evitar erros se aboutStyles não estiver completo
+  const safeAboutStyles = {
+    sectionTitle: aboutStyles?.sectionTitle || {},
+    sectionTitleHighlight: aboutStyles?.sectionTitleHighlight || {},
+    aboutCard: aboutStyles?.aboutCard || {},
+    aboutContent: aboutStyles?.aboutContent || {},
+    educationTitle: aboutStyles?.educationTitle || {},
+    educationDegree: aboutStyles?.educationDegree || {},
+    educationInstitution: aboutStyles?.educationInstitution || {},
+    educationYear: aboutStyles?.educationYear || {},
+    languagesTitle: aboutStyles?.languagesTitle || {},
+    languageItem: aboutStyles?.languageItem || {},
+    languageLevel: aboutStyles?.languageLevel || {},
+    skillsTitle: aboutStyles?.skillsTitle || {},
+    skillItem: aboutStyles?.skillItem || {},
+    certificationsTitle: aboutStyles?.certificationsTitle || {},
+    certificationItem: aboutStyles?.certificationItem || {},
+  };
+  
+  // 🎯 Helper function para destacar seção ativa
+  const getHighlightClass = (sectionId: string) => {
+    const isActive = activeSection === sectionId;
+    console.log(`🎨 Highlight para ${sectionId}:`, isActive ? 'ATIVO!' : 'inativo');
+    return isActive
+      ? 'border-cyan-400 border-[3px] shadow-[0_0_60px_rgba(6,182,212,0.8),inset_0_0_30px_rgba(6,182,212,0.3)] scale-[1.02] bg-cyan-500/10 animate-pulse' 
+      : 'border-cyan-500/10';
+  };
   
   // Configuração do carrossel
   const sliderSettings = {
@@ -91,44 +167,119 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
     },
   ];
 
-  // Pilares com ícones
-  const pilaresIcons = [
-    { icon: Target, title: t.bento.card1.title, desc: t.bento.card1.desc },
-    { icon: BarChart3, title: t.bento.card2.title, desc: t.bento.card2.desc },
-    { icon: Rocket, title: t.bento.card3.title, desc: t.bento.card3.desc },
-    { icon: Users, title: t.bento.card4.title, desc: t.bento.card4.desc },
+  // Pilares com ícones - consumindo dados do storage
+  const pilaresData = [
+    { 
+      iconName: about.pilarsIcon1 || 'Target', 
+      title: language === 'pt' ? about.pilar1Title_pt : about.pilar1Title_en, 
+      desc: language === 'pt' ? about.pilar1Desc_pt : about.pilar1Desc_en 
+    },
+    { 
+      iconName: about.pilarsIcon2 || 'BarChart3', 
+      title: language === 'pt' ? about.pilar2Title_pt : about.pilar2Title_en, 
+      desc: language === 'pt' ? about.pilar2Desc_pt : about.pilar2Desc_en 
+    },
+    { 
+      iconName: about.pilarsIcon3 || 'Rocket', 
+      title: language === 'pt' ? about.pilar3Title_pt : about.pilar3Title_en, 
+      desc: language === 'pt' ? about.pilar3Desc_pt : about.pilar3Desc_en 
+    },
+    { 
+      iconName: about.pilarsIcon4 || 'Users', 
+      title: language === 'pt' ? about.pilar4Title_pt : about.pilar4Title_en, 
+      desc: language === 'pt' ? about.pilar4Desc_pt : about.pilar4Desc_en 
+    },
   ];
   
+  // Map icon names to actual icon components
+  const iconMap: Record<string, any> = {
+    Target, BarChart3, Rocket, Users, Zap, TrendingUp, Award, Lightbulb,
+    GraduationCap, Languages, FileCheck
+  };
+  
+  const pilaresIcons = pilaresData.map(p => ({
+    icon: iconMap[p.iconName] || Target,
+    title: p.title,
+    desc: p.desc
+  }));
+  
   return (
-    <section id="perfil" className="py-32 border-b border-white/5 bg-slate-950/30 relative overflow-hidden">
+    <section id="trajetoria" className="py-32 border-b border-white/5 bg-slate-950/30 relative overflow-hidden">
       {/* Background decorativo */}
       <div className="absolute top-0 left-0 w-1/2 h-full bg-cyan-500/5 blur-[150px] rounded-full"></div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Título da Seção */}
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
-            {t.title} <span className="text-cyan-400 italic">{t.titleHighlight}</span>
+        <div 
+          id="trajetoria-title"
+          className={`text-center mb-16 transition-all ${getHighlightClass('trajetoria-title')}`}
+        >
+          <h2 className="text-5xl md:text-6xl font-black mb-4 tracking-tight">
+            <span 
+              id="trajetoria-title1"
+              style={{
+              fontFamily: safeAboutStyles.sectionTitle.fontFamily,
+              fontSize: safeAboutStyles.sectionTitle.fontSize,
+              fontWeight: safeAboutStyles.sectionTitle.fontWeight,
+              color: safeAboutStyles.sectionTitle.color,
+              lineHeight: safeAboutStyles.sectionTitle.lineHeight,
+            }}>
+              {language === 'pt' ? about.sectionTitle_pt : about.sectionTitle_en}
+            </span>{' '}
+            <span 
+              id="trajetoria-title2"
+              style={{
+              fontFamily: safeAboutStyles.sectionTitleHighlight.fontFamily,
+              fontSize: safeAboutStyles.sectionTitleHighlight.fontSize,
+              fontWeight: safeAboutStyles.sectionTitleHighlight.fontWeight,
+              color: safeAboutStyles.sectionTitleHighlight.color,
+              lineHeight: safeAboutStyles.sectionTitleHighlight.lineHeight,
+            }} className="italic">
+              {language === 'pt' ? about.sectionTitleHighlight_pt : about.sectionTitleHighlight_en}
+            </span>
           </h2>
           <div className="h-[2px] w-32 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto"></div>
         </div>
 
-        {/* ═══════════════════ LINHA 1 ═══════════════════ */}
+        {/* ══════════════════ LINHA 1 ═══════════════════ */}
         {/* 50% Sobre + 50% Grid 2x2 (Formação/Idiomas/Skills/Certs) */}
-        <div className="grid md:grid-cols-2 gap-6 mb-6" data-aos="fade-up">
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
           
           {/* SOBRE MIM - 50% */}
-          <div className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-10 rounded-sm hover:border-cyan-500/30 transition-all">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-cyan-500/10 rounded-sm flex items-center justify-center">
-                <Award className="text-cyan-400" size={20} />
+          <div 
+            id="about-text"
+            className={`backdrop-blur-sm border p-10 rounded-sm transition-all ${getHighlightClass('about-text')}`}
+            style={{
+              ...applyBackgroundColor(safeAboutStyles.aboutCard.backgroundColor), // ✅ USAR HELPER!
+              borderColor: safeAboutStyles.aboutCard.borderColor,
+            }}
+          >
+            <div 
+              id="about-text-title"
+              className={`flex items-center gap-3 mb-6 transition-all ${getHighlightClass('about-text-title')}`}
+            >
+              <div 
+                className="w-10 h-10 rounded-sm flex items-center justify-center"
+                style={{ ...applyBackgroundColor(safeAboutStyles.aboutContent.iconBackgroundColor) }} // ✅ USAR HELPER!
+              >
+                <Award 
+                  size={20}
+                  style={{ color: safeAboutStyles.aboutContent.iconColor }}
+                />
               </div>
-              <h3 className="text-xs font-black uppercase tracking-[0.3em] text-cyan-400">
-                {t.about}
+              <h3 
+                className="text-sm md:text-base font-black uppercase tracking-[0.3em]"
+                style={{ color: safeAboutStyles.aboutContent.accentColor }}
+              >
+                {language === 'pt' ? about.aboutTitle_pt : about.aboutTitle_en}
               </h3>
             </div>
-            <p className="text-sm text-slate-300 leading-relaxed font-light">
-              {t.profileText}
+            <p 
+              id="about-text-content"
+              className={`text-base md:text-lg leading-relaxed font-light transition-all ${getHighlightClass('about-text-content')}`}
+              style={{ color: safeAboutStyles.aboutContent.textColor }}
+            >
+              {language === 'pt' ? about.aboutText_pt : about.aboutText_en}
             </p>
           </div>
 
@@ -136,22 +287,33 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
           <div className="grid grid-cols-2 gap-4">
             
             {/* FORMAÇÃO */}
-            <div className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-6 rounded-sm hover:border-cyan-500/30 transition-all">
-              <div className="flex items-center gap-2 mb-4">
+            <div 
+              id="about-education"
+              className={`bg-slate-900/50 backdrop-blur-sm border p-6 rounded-sm hover:border-cyan-500/30 transition-all ${getHighlightClass('about-education')}`}
+            >
+              <div 
+                id="about-education-title"
+                className={`flex items-center gap-2 mb-4 transition-all ${getHighlightClass('about-education-title')}`}
+              >
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-sm flex items-center justify-center flex-shrink-0">
                   <GraduationCap className="text-cyan-400" size={16} />
                 </div>
-                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
-                  {t.education.title}
+                <h3 className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
+                  {language === 'pt' ? about.educationTitle_pt : about.educationTitle_en}
                 </h3>
               </div>
-              <ul className="space-y-2">
-                {t.education.items.map((item, index) => (
-                  <li key={index} className="flex items-start gap-2">
+              <ul 
+                id="about-education-items"
+                className={`space-y-2 transition-all ${getHighlightClass('about-education-items')}`}
+              >
+                {about.educationItems.map((item, index) => (
+                  <li key={item.id} className="flex items-start gap-2">
                     <div className="w-1 h-1 bg-cyan-400 rounded-full mt-1.5 flex-shrink-0"></div>
                     <div>
-                      <span className="text-xs text-slate-300 font-medium block leading-tight">{item.degree}</span>
-                      <div className="text-[10px] text-slate-500">{item.institution} • {item.year}</div>
+                      <span className="text-sm md:text-base text-slate-300 font-medium block leading-tight">
+                        {language === 'pt' ? item.degree_pt : item.degree_en}
+                      </span>
+                      <div className="text-xs md:text-sm text-slate-500">{item.institution} • {item.year}</div>
                     </div>
                   </li>
                 ))}
@@ -159,43 +321,51 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
             </div>
 
             {/* IDIOMAS */}
-            <div className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-6 rounded-sm hover:border-cyan-500/30 transition-all">
+            <div 
+              id="about-languages"
+              className={`bg-slate-900/50 backdrop-blur-sm border p-6 rounded-sm hover:border-cyan-500/30 transition-all ${getHighlightClass('about-languages')}`}
+            >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-sm flex items-center justify-center flex-shrink-0">
                   <Languages className="text-cyan-400" size={16} />
                 </div>
-                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
-                  {t.languages.title}
+                <h3 className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
+                  {language === 'pt' ? about.languagesTitle_pt : about.languagesTitle_en}
                 </h3>
               </div>
-              {t.languages.items.map((item, index) => (
-                <div key={index} className="flex items-center justify-between mb-2">
+              {about.languageItems.map((item, index) => (
+                <div key={item.id} className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <span className="text-base">{item.flag}</span>
-                    <span className="text-xs text-slate-300">{item.lang}</span>
+                    <span className="text-sm md:text-base text-slate-300">
+                      {language === 'pt' ? item.name_pt : item.name_en}
+                    </span>
                   </div>
-                  <span className="text-[9px] font-bold text-cyan-400 uppercase tracking-wider">
-                    {item.level}
+                  <span className="text-xs md:text-sm font-bold text-cyan-400 uppercase tracking-wider">
+                    {language === 'pt' ? item.level_pt : item.level_en}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* COMPETÊNCIAS */}
-            <div className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-6 rounded-sm hover:border-cyan-500/30 transition-all">
+            {/* COMPETNCIAS */}
+            <div 
+              id="about-skills"
+              className={`bg-slate-900/50 backdrop-blur-sm border p-6 rounded-sm hover:border-cyan-500/30 transition-all ${getHighlightClass('about-skills')}`}
+            >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-sm flex items-center justify-center flex-shrink-0">
                   <Lightbulb className="text-cyan-400" size={16} />
                 </div>
-                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
-                  {t.skills.title}
+                <h3 className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
+                  {language === 'pt' ? about.skillsTitle_pt : about.skillsTitle_en}
                 </h3>
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {t.skills.items.map((skill, index) => (
+                {(language === 'pt' ? about.skillItems_pt : about.skillItems_en).map((skill, index) => (
                   <span
                     key={index}
-                    className="px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-sm text-[9px] font-bold text-cyan-400 uppercase tracking-wider hover:bg-cyan-500/20 transition-all"
+                    className="px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-sm text-xs md:text-sm font-bold text-cyan-400 uppercase tracking-wider hover:bg-cyan-500/20 transition-all"
                   >
                     {skill}
                   </span>
@@ -204,20 +374,25 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
             </div>
 
             {/* CERTIFICAÇÕES */}
-            <div className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-6 rounded-sm hover:border-cyan-500/30 transition-all">
+            <div 
+              id="about-certifications"
+              className={`bg-slate-900/50 backdrop-blur-sm border p-6 rounded-sm hover:border-cyan-500/30 transition-all ${getHighlightClass('about-certifications')}`}
+            >
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-cyan-500/10 rounded-sm flex items-center justify-center flex-shrink-0">
                   <FileCheck className="text-cyan-400" size={16} />
                 </div>
-                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
-                  {t.certifications.title}
+                <h3 className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-cyan-400 leading-tight">
+                  {language === 'pt' ? about.certificationsTitle_pt : about.certificationsTitle_en}
                 </h3>
               </div>
               <ul className="space-y-1.5">
-                {t.certifications.items.map((cert, index) => (
-                  <li key={index} className="flex items-start gap-2">
+                {about.certificationItems.map((cert, index) => (
+                  <li key={cert.id} className="flex items-start gap-2">
                     <div className="w-1 h-1 bg-cyan-400 rounded-full mt-1.5 flex-shrink-0"></div>
-                    <span className="text-xs text-slate-300 leading-tight">{cert}</span>
+                    <span className="text-sm md:text-base text-slate-300 leading-tight">
+                      {language === 'pt' ? cert.name_pt : cert.name_en}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -227,24 +402,26 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
 
         {/* ═══════════════════ LINHA 2 ═══════════════════ */}
         {/* 50% Grid 2x2 Pilares + 50% Big Numbers */}
-        <div className="grid md:grid-cols-2 gap-6 mb-6" data-aos="fade-up">
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
           
           {/* GRID 2x2 - 4 PILARES - 50% */}
           <div className="grid grid-cols-2 gap-4">
             {pilaresIcons.map((pilar, index) => {
               const Icon = pilar.icon;
+              const pilarId = `about-pilar-${index + 1}`;
               return (
                 <div
                   key={index}
-                  className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-6 rounded-sm hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all group"
+                  id={pilarId}
+                  className={`bg-slate-900/50 backdrop-blur-sm border p-6 rounded-sm hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all group ${getHighlightClass(pilarId)}`}
                 >
                   <div className="w-10 h-10 bg-cyan-500/10 rounded-sm flex items-center justify-center mb-3 group-hover:bg-cyan-500/20 transition-all">
                     <Icon className="text-cyan-400" size={20} />
                   </div>
-                  <h4 className="text-[10px] font-black text-cyan-400 mb-2 uppercase tracking-wide leading-tight line-clamp-1">
+                  <h4 className="text-xs md:text-sm font-black text-cyan-400 mb-2 uppercase tracking-wide leading-tight line-clamp-1">
                     {pilar.title}
                   </h4>
-                  <p className="text-[10px] text-slate-400 leading-relaxed">
+                  <p className="text-xs md:text-sm text-slate-400 leading-relaxed">
                     {pilar.desc}
                   </p>
                 </div>
@@ -253,7 +430,10 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
           </div>
 
           {/* BIG NUMBERS - 50% */}
-          <div className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-10 rounded-sm hover:border-cyan-500/30 transition-all">
+          <div 
+            id="about-bignumbers"
+            className={`bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-10 rounded-sm hover:border-cyan-500/30 transition-all ${getHighlightClass('about-bignumbers')}`}
+          >
             <div className="flex items-center gap-3 mb-8">
               <div className="w-10 h-10 bg-cyan-500/10 rounded-sm flex items-center justify-center">
                 <TrendingUp className="text-cyan-400" size={20} />
@@ -264,54 +444,78 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
             </div>
             
             <div className="grid grid-cols-3 gap-6">
-              <div className="text-center">
+              <div id="about-bignumber-1" className={`text-center transition-all ${getHighlightClass('about-bignumber-1')}`}>
                 <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
                   <Counter end={19} suffix="+" />
                 </div>
-                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label1.replace('\\n', '<br/>') }}></div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label1.replace('\\n', '<br/>') }}></div>
               </div>
 
-              <div className="text-center">
+              <div id="about-bignumber-2" className={`text-center transition-all ${getHighlightClass('about-bignumber-2')}`}>
                 <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
                   <Counter end={98} suffix="%" />
                 </div>
-                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label2.replace('\\n', '<br/>') }}></div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label2.replace('\\n', '<br/>') }}></div>
               </div>
 
-              <div className="text-center">
+              <div id="about-bignumber-3" className={`text-center transition-all ${getHighlightClass('about-bignumber-3')}`}>
                 <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
                   <Counter end={500} suffix="+" />
                 </div>
-                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label3.replace('\\n', '<br/>') }}></div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label3.replace('\\n', '<br/>') }}></div>
               </div>
 
-              <div className="text-center">
+              <div id="about-bignumber-4" className={`text-center transition-all ${getHighlightClass('about-bignumber-4')}`}>
                 <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
                   <Counter end={3} suffix="" />
                 </div>
-                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label4.replace('\\n', '<br/>') }}></div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label4.replace('\\n', '<br/>') }}></div>
               </div>
 
-              <div className="text-center">
+              <div id="about-bignumber-5" className={`text-center transition-all ${getHighlightClass('about-bignumber-5')}`}>
                 <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
                   <Counter end={500} suffix="" />
                 </div>
-                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label5.replace('\\n', '<br/>') }}></div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label5.replace('\\n', '<br/>') }}></div>
               </div>
 
-              <div className="text-center">
+              <div id="about-bignumber-6" className={`text-center transition-all ${getHighlightClass('about-bignumber-6')}`}>
                 <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
                   <Counter end={9} suffix="+" />
                 </div>
-                <div className="text-[9px] font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label6.replace('\\n', '<br/>') }}></div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label6.replace('\\n', '<br/>') }}></div>
+              </div>
+
+              <div id="about-bignumber-7" className={`text-center transition-all ${getHighlightClass('about-bignumber-7')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
+                  <Counter end={15} suffix="K+" />
+                </div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label7.replace('\\n', '<br/>') }}></div>
+              </div>
+
+              <div id="about-bignumber-8" className={`text-center transition-all ${getHighlightClass('about-bignumber-8')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
+                  <Counter end={300} suffix="%" />
+                </div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label8.replace('\\n', '<br/>') }}></div>
+              </div>
+
+              <div id="about-bignumber-9" className={`text-center transition-all ${getHighlightClass('about-bignumber-9')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
+                  <Counter end={50} suffix="+" />
+                </div>
+                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label9.replace('\\n', '<br/>') }}></div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ═══════════════════ LINHA 3 ═══════════════════ */}
+        {/* ════════════════���══ LINHA 3 ═══════════════════ */}
         {/* Timeline Horizontal - 100% */}
-        <div className="bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-10 rounded-sm mb-6" data-aos="fade-up">
+        <div 
+          id="about-timeline"
+          className={`bg-slate-900/50 backdrop-blur-sm border border-cyan-500/10 p-10 rounded-sm mb-6 transition-all ${getHighlightClass('about-timeline')}`}
+        >
           <div className="flex items-center gap-3 mb-8">
             <div className="w-10 h-10 bg-cyan-500/10 rounded-sm flex items-center justify-center">
               <TrendingUp className="text-cyan-400" size={20} />
@@ -323,12 +527,16 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
           
           <div className="timeline-horizontal px-4">
             {timelineItems.map((item, index) => (
-              <div key={index} className="timeline-item-h">
+              <div 
+                key={index} 
+                id={`about-timeline-${index + 1}`}
+                className={`timeline-item-h transition-all ${getHighlightClass(`about-timeline-${index + 1}`)}`}
+              >
                 <div className="timeline-dot"></div>
-                <span className="block text-[10px] font-black text-cyan-400 mb-1 uppercase">
+                <span className="block text-xs md:text-sm font-black text-cyan-400 mb-1 uppercase">
                   {item.date}
                 </span>
-                <span className="block text-sm font-black text-white uppercase tracking-tighter">
+                <span className="block text-base md:text-lg font-black text-white uppercase tracking-tighter">
                   {item.company}
                 </span>
               </div>
@@ -338,7 +546,7 @@ export function TrajetoriaSection({ language }: TrajetoriaSectionProps) {
 
         {/* ═══════════════════ LINHA 4 ═══════════════════ */}
         {/* Cases de Sucesso - Carrossel - 100% */}
-        <div className="relative pb-12" data-aos="fade-up">
+        <div className="relative pb-12">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-cyan-500/10 rounded-sm flex items-center justify-center">

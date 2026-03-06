@@ -284,7 +284,7 @@ export function SkillsSection({ language }: SkillsSectionProps) {
     <section id="skills" className="py-32 bg-slate-950/50 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-16" data-aos="fade-up">
+        <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tight">
             {content.title} <span className="text-cyan-400 italic">&</span> <span className="text-cyan-400 italic">{content.subtitle}</span>
           </h2>
@@ -301,8 +301,6 @@ export function SkillsSection({ language }: SkillsSectionProps) {
               <div
                 key={index}
                 className={`bg-slate-900/50 backdrop-blur-sm border ${colors.bg.split(' ')[1]} p-8 rounded-sm ${colors.hover} transition-all duration-300 group`}
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
               >
                 {/* Icon + Title */}
                 <div className="flex items-center gap-3 mb-6">
