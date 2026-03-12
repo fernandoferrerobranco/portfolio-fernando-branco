@@ -58,169 +58,137 @@ interface SkillsSectionProps {
 export function SkillsSection({ language }: SkillsSectionProps) {
   const skills = {
     pt: {
-      title: 'Core Competencies',
-      subtitle: 'Stack Tecnológico',
+      title: 'Competências',
+      subtitle: 'Skills',
       categories: [
         {
           icon: Users,
-          title: 'Gestão & Liderança',
+          title: 'Liderança & Pessoas',
           color: 'cyan' as const,
           items: [
-            { name: 'Agile / Scrum', icon: Zap },
-            { name: 'AS-IS / TO-BE', icon: GitBranch },
-            { name: 'GTM Strategy', icon: Rocket },
-            { name: 'Feedback / 1:1', icon: MessageSquare },
-            { name: 'OKRs & KPIs', icon: Target },
-            { name: 'Team Building', icon: UserPlus },
+            '1:1',
+            'Mentoria & Feedbacks',
+            'Liderança Situacional',
+            'Onboarding',
+            'Team Building',
+            'Trabalho em Equipe',
+            'Comunicação',
+            'Inteligência Emocional'
           ],
         },
         {
           icon: Workflow,
-          title: 'Processos & Automação',
+          title: 'Processos & Eficiência',
           color: 'blue' as const,
           items: [
-            { name: 'Pipefy (Power User)', icon: Boxes },
-            { name: 'Workato', icon: Share2 },
-            { name: 'ClickUp / Jira', icon: CheckCircle2 },
-            { name: 'Governança de Dados', icon: Shield },
-            { name: 'Process Mapping', icon: Map },
-            { name: 'RPA Basics', icon: Settings },
+            'Agile & Scrum',
+            'As-is / To-be',
+            'SLA & KPI',
+            'Lean Thinking',
+            'Gestão do Tempo',
+            'Resolução de Problemas'
           ],
         },
         {
-          icon: Code,
-          title: 'Tecnologia & Data',
+          icon: Target,
+          title: 'Estratégia & Projetos',
           color: 'purple' as const,
           items: [
-            { name: 'Excel Avançado (VBA)', icon: Table2 },
-            { name: 'SQL / BigQuery', icon: Database },
-            { name: 'HTML / CSS', icon: FileCode },
-            { name: 'Power BI / Looker', icon: PieChart },
-            { name: 'APIs / Integrações', icon: Puzzle },
-            { name: 'Git Basics', icon: GitBranch },
+            'GTM',
+            'PMO',
+            'OKRs',
+            'Data-Driven',
+            'Parcerias Estratégicas',
+            'Omnichannel',
+            'Marketing de Produto',
+            'Adaptabilidade',
+            'Criatividade',
+            'Inovação',
+            'Análise de Dados'
           ],
         },
         {
-          icon: Palette,
-          title: 'Design & Marketing',
-          color: 'orange' as const,
-          items: [
-            { name: 'Adobe Illustrator', icon: Shapes },
-            { name: 'Adobe Photoshop', icon: Image },
-            { name: 'Figma / UI-UX', icon: MousePointer },
-            { name: 'Canva Pro', icon: Paintbrush },
-            { name: 'Digital Branding', icon: Wand2 },
-            { name: 'Storytelling', icon: Megaphone },
-          ],
-        },
-        {
-          icon: Award,
-          title: 'Certificações',
+          icon: Settings,
+          title: 'Tecnologia & Ferramentas',
           color: 'green' as const,
           items: [
-            { name: 'Google Analytics', icon: BarChart3 },
-            { name: 'Meta Blueprint', icon: Megaphone },
-            { name: 'Pipefy Expert', icon: Trophy },
-            { name: 'HubSpot Inbound', icon: Lightbulb },
-            { name: 'Scrum Foundation', icon: BookOpen },
-            { name: 'LGPD Awareness', icon: Lock },
-          ],
-        },
-        {
-          icon: Rocket,
-          title: 'Ferramentas & Plataformas',
-          color: 'pink' as const,
-          items: [
-            { name: 'Shopify / WordPress', icon: Globe },
-            { name: 'HubSpot / RD Station', icon: Mail },
-            { name: 'Salesforce Basics', icon: Cloud },
-            { name: 'Google Workspace', icon: LayoutGrid },
-            { name: 'Notion / Asana', icon: FileText },
-            { name: 'Miro / FigJam', icon: Presentation },
+            'Office',
+            'Jira, Trello, Pipefy, ClickUp',
+            'Adobe Cloud',
+            'HTML/CSS',
+            'IA',
+            'Figma',
+            'Miro',
+            'Salesforce',
+            'Wordpress'
           ],
         },
       ],
     },
     en: {
-      title: 'Core Competencies',
-      subtitle: 'Tech Stack',
+      title: 'Competencies',
+      subtitle: 'Skills',
       categories: [
         {
           icon: Users,
-          title: 'Management & Leadership',
+          title: 'Leadership & People',
           color: 'cyan' as const,
           items: [
-            { name: 'Agile / Scrum', icon: Zap },
-            { name: 'AS-IS / TO-BE', icon: GitBranch },
-            { name: 'GTM Strategy', icon: Rocket },
-            { name: 'Feedback / 1:1', icon: MessageSquare },
-            { name: 'OKRs & KPIs', icon: Target },
-            { name: 'Team Building', icon: UserPlus },
+            '1:1',
+            'Mentoring & Feedback',
+            'Situational Leadership',
+            'Onboarding',
+            'Team Building',
+            'Teamwork',
+            'Communication',
+            'Emotional Intelligence'
           ],
         },
         {
           icon: Workflow,
-          title: 'Process & Automation',
+          title: 'Processes & Efficiency',
           color: 'blue' as const,
           items: [
-            { name: 'Pipefy (Power User)', icon: Boxes },
-            { name: 'Workato', icon: Share2 },
-            { name: 'ClickUp / Jira', icon: CheckCircle2 },
-            { name: 'Data Governance', icon: Shield },
-            { name: 'Process Mapping', icon: Map },
-            { name: 'RPA Basics', icon: Settings },
+            'Agile & Scrum',
+            'As-is / To-be',
+            'SLA & KPI',
+            'Lean Thinking',
+            'Time Management',
+            'Problem Solving'
           ],
         },
         {
-          icon: Code,
-          title: 'Technology & Data',
+          icon: Target,
+          title: 'Strategy & Projects',
           color: 'purple' as const,
           items: [
-            { name: 'Advanced Excel (VBA)', icon: Table2 },
-            { name: 'SQL / BigQuery', icon: Database },
-            { name: 'HTML / CSS', icon: FileCode },
-            { name: 'Power BI / Looker', icon: PieChart },
-            { name: 'APIs / Integrations', icon: Puzzle },
-            { name: 'Git Basics', icon: GitBranch },
+            'GTM',
+            'PMO',
+            'OKRs',
+            'Data-Driven',
+            'Strategic Partnerships',
+            'Omnichannel',
+            'Product Marketing',
+            'Adaptability',
+            'Creativity',
+            'Innovation',
+            'Data Analysis'
           ],
         },
         {
-          icon: Palette,
-          title: 'Design & Marketing',
-          color: 'orange' as const,
-          items: [
-            { name: 'Adobe Illustrator', icon: Shapes },
-            { name: 'Adobe Photoshop', icon: Image },
-            { name: 'Figma / UI-UX', icon: MousePointer },
-            { name: 'Canva Pro', icon: Paintbrush },
-            { name: 'Digital Branding', icon: Wand2 },
-            { name: 'Storytelling', icon: Megaphone },
-          ],
-        },
-        {
-          icon: Award,
-          title: 'Certifications',
+          icon: Settings,
+          title: 'Technology & Tools',
           color: 'green' as const,
           items: [
-            { name: 'Google Analytics', icon: BarChart3 },
-            { name: 'Meta Blueprint', icon: Megaphone },
-            { name: 'Pipefy Expert', icon: Trophy },
-            { name: 'HubSpot Inbound', icon: Lightbulb },
-            { name: 'Scrum Foundation', icon: BookOpen },
-            { name: 'LGPD Awareness', icon: Lock },
-          ],
-        },
-        {
-          icon: Rocket,
-          title: 'Tools & Platforms',
-          color: 'pink' as const,
-          items: [
-            { name: 'Shopify / WordPress', icon: Globe },
-            { name: 'HubSpot / RD Station', icon: Mail },
-            { name: 'Salesforce Basics', icon: Cloud },
-            { name: 'Google Workspace', icon: LayoutGrid },
-            { name: 'Notion / Asana', icon: FileText },
-            { name: 'Miro / FigJam', icon: Presentation },
+            'Office',
+            'Jira, Trello, Pipefy, ClickUp',
+            'Adobe Cloud',
+            'HTML/CSS',
+            'AI',
+            'Figma',
+            'Miro',
+            'Salesforce',
+            'Wordpress'
           ],
         },
       ],
@@ -254,14 +222,6 @@ export function SkillsSection({ language }: SkillsSectionProps) {
       tagIcon: 'text-purple-400',
       hover: 'hover:border-purple-500/40 hover:bg-purple-500/5',
     },
-    orange: {
-      bg: 'bg-orange-500/10 border-orange-500/20',
-      icon: 'text-orange-400',
-      title: 'text-orange-400',
-      tag: 'bg-orange-500/10 border-orange-500/30 text-orange-300',
-      tagIcon: 'text-orange-400',
-      hover: 'hover:border-orange-500/40 hover:bg-orange-500/5',
-    },
     green: {
       bg: 'bg-green-500/10 border-green-500/20',
       icon: 'text-green-400',
@@ -269,14 +229,6 @@ export function SkillsSection({ language }: SkillsSectionProps) {
       tag: 'bg-green-500/10 border-green-500/30 text-green-300',
       tagIcon: 'text-green-400',
       hover: 'hover:border-green-500/40 hover:bg-green-500/5',
-    },
-    pink: {
-      bg: 'bg-pink-500/10 border-pink-500/20',
-      icon: 'text-pink-400',
-      title: 'text-pink-400',
-      tag: 'bg-pink-500/10 border-pink-500/30 text-pink-300',
-      tagIcon: 'text-pink-400',
-      hover: 'hover:border-pink-500/40 hover:bg-pink-500/5',
     },
   };
 
@@ -291,47 +243,47 @@ export function SkillsSection({ language }: SkillsSectionProps) {
           <div className="h-[2px] w-32 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto"></div>
         </div>
 
-        {/* Grid de Skills */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {content.categories.map((category, index) => {
-            const Icon = category.icon;
-            const colors = colorClasses[category.color];
-            
-            return (
-              <div
-                key={index}
-                className={`bg-slate-900/50 backdrop-blur-sm border ${colors.bg.split(' ')[1]} p-8 rounded-sm ${colors.hover} transition-all duration-300 group`}
-              >
-                {/* Icon + Title */}
-                <div className="flex items-center gap-3 mb-6">
-                  <div className={`w-12 h-12 ${colors.bg} rounded-sm flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                    <Icon className={colors.icon} size={24} />
+        {/* Grid de Skills 2x2 - Container limitado para cards mais quadrados */}
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6">
+            {content.categories.map((category, index) => {
+              const Icon = category.icon;
+              const colors = colorClasses[category.color];
+              
+              return (
+                <div
+                  key={index}
+                  className={`bg-slate-900/50 backdrop-blur-sm border ${colors.bg.split(' ')[1]} p-8 rounded-sm ${colors.hover} transition-all duration-300 group`}
+                >
+                  {/* Icon + Title */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className={`w-12 h-12 ${colors.bg} rounded-sm flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                      <Icon className={colors.icon} size={24} />
+                    </div>
+                    <h3 className={`text-xs font-black uppercase tracking-[0.2em] ${colors.title} leading-tight`}>
+                      {category.title}
+                    </h3>
                   </div>
-                  <h3 className={`text-xs font-black uppercase tracking-[0.2em] ${colors.title} leading-tight`}>
-                    {category.title}
-                  </h3>
-                </div>
 
-                {/* Tags com Ícones */}
-                <div className="flex flex-wrap gap-2">
-                  {category.items.map((item, itemIndex) => {
-                    const ItemIcon = item.icon;
-                    return (
-                      <div
-                        key={itemIndex}
-                        className={`inline-flex items-center gap-2 px-3 py-2 ${colors.tag} border rounded-sm transition-all hover:scale-105 hover:shadow-lg`}
-                      >
-                        <ItemIcon className={colors.tagIcon} size={14} strokeWidth={2.5} />
-                        <span className="text-[10px] font-bold uppercase tracking-wide whitespace-nowrap">
-                          {item.name}
-                        </span>
-                      </div>
-                    );
-                  })}
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {category.items.map((item, itemIndex) => {
+                      return (
+                        <div
+                          key={itemIndex}
+                          className={`inline-flex items-center gap-2 px-3 py-2 ${colors.tag} border rounded-sm transition-all hover:scale-105 hover:shadow-lg`}
+                        >
+                          <span className="text-[10px] font-bold uppercase tracking-wide whitespace-nowrap">
+                            {item}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

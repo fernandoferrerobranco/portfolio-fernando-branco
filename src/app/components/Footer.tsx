@@ -21,10 +21,10 @@ export function Footer({ language }: FooterProps) {
         </h2>
         <div className="flex flex-wrap justify-center gap-8 mb-20">
           <a
-            href="mailto:fernando@g2g.org.br"
+            href="mailto:fernandoferrerobranco@gmail.com"
             className="text-slate-400 hover:text-white transition uppercase text-[10px] font-black tracking-[0.3em] flex items-center gap-3 bg-slate-950 px-6 py-3 border border-white/5"
           >
-            <Send className="text-cyan-500" size={16} /> fernando@g2g.org.br
+            <Send className="text-cyan-500" size={16} /> fernandoferrerobranco@gmail.com
           </a>
           <a
             href="tel:11971550871"

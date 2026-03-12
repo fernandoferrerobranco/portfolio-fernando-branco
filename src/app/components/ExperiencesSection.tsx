@@ -56,7 +56,7 @@ interface ExperiencesSectionProps {
 }
 
 export function ExperiencesSection({ language, activeSection }: ExperiencesSectionProps) {
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
   const [data, setData] = useState<PortfolioData>(loadData());
   const t = translations[language];
 
@@ -84,7 +84,15 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
   };
 
   const toggleAccordion = (id: string) => {
-    setOpenAccordion(openAccordion === id ? null : id);
+    setOpenAccordions(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   };
 
   return (
@@ -158,7 +166,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.fictorpay.role}
             iconColor={experiencesData[0].iconColor}
             scope={t.experiences.fictorpay.scope}
-            isOpen={openAccordion === 'fictorpay'}
+            isOpen={openAccordions.has('fictorpay')}
             onToggle={() => toggleAccordion('fictorpay')}
             className={getHighlightClass('fictorpay')}
           >
@@ -196,33 +204,33 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.shopee.role}
             iconColor={experiencesData[1].iconColor}
             scope={t.experiences.shopee.scope}
-            isOpen={openAccordion === 'shopee'}
+            isOpen={openAccordions.has('shopee')}
             onToggle={() => toggleAccordion('shopee')}
             className={getHighlightClass('shopee')}
           >
             <div>
               {/* Timeline de Promoções */}
-              <div className="mb-8 bg-slate-900/50 p-6 rounded-sm border border-orange-500/10">
-                <h4 className="text-xs font-black text-orange-500 uppercase italic mb-6 tracking-widest text-center">
+              <div className="mb-8 bg-slate-900/50 p-6 rounded-sm border border-cyan-500/10">
+                <h4 className="text-xs font-black text-cyan-500 uppercase italic mb-6 tracking-widest text-center">
                   {t.experiences.shopee.timelineTitle}
                 </h4>
                 <div className="relative px-4">
                   {/* Linha horizontal */}
-                  <div className="absolute left-0 right-0 top-3 h-[2px] bg-gradient-to-r from-orange-500 via-orange-500 to-orange-500/50"></div>
+                  <div className="absolute left-0 right-0 top-3 h-[2px] bg-gradient-to-r from-cyan-500 via-cyan-500 to-cyan-500/50"></div>
                   
                   {/* Timeline Items */}
                   <div className="grid grid-cols-4 gap-4">
                     {t.experiences.shopee.timeline?.map((step, index) => (
                       <div key={index} className="relative pt-8 text-center">
                         {/* Dot */}
-                        <div className="absolute left-1/2 -translate-x-1/2 top-0 w-6 h-6 rounded-full bg-orange-500 border-4 border-slate-900 shadow-lg shadow-orange-500/30 z-10"></div>
+                        <div className="absolute left-1/2 -translate-x-1/2 top-0 w-6 h-6 rounded-full bg-cyan-500 border-4 border-slate-900 shadow-lg shadow-cyan-500/30 z-10"></div>
                         
                         {/* Content */}
                         <div className="mt-2">
                           <p className="text-[10px] font-black text-white uppercase tracking-wide mb-1 leading-tight">
                             {step.position}
                           </p>
-                          <p className="text-[9px] text-orange-400 font-bold uppercase tracking-wider">
+                          <p className="text-[9px] text-cyan-400 font-bold uppercase tracking-wider">
                             {step.level}
                           </p>
                           {step.region && (
@@ -238,7 +246,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
               </div>
 
               {/* Conquistas */}
-              <div className="inline-block px-3 py-1 rounded-sm bg-orange-500/10 border border-orange-500/20 text-orange-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
+              <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
                 Conquistas
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
@@ -247,7 +255,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
                   const Icon = icons[index];
                   return (
                     <div key={index} className="flex gap-4 items-start">
-                      <Icon className="conquista-icon text-orange-400" size={16} />
+                      <Icon className="conquista-icon text-cyan-400" size={16} />
                       <div>
                         <p className="text-xs font-black text-white uppercase tracking-widest mb-1 italic">
                           {achievement.title}
@@ -271,12 +279,12 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.comgas.role}
             iconColor={experiencesData[2].iconColor}
             scope={t.experiences.comgas.scope}
-            isOpen={openAccordion === 'comgas'}
+            isOpen={openAccordions.has('comgas')}
             onToggle={() => toggleAccordion('comgas')}
             className={getHighlightClass('comgas')}
           >
             <div>
-              <div className="inline-block px-3 py-1 rounded-sm bg-blue-500/10 border border-blue-500/20 text-blue-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
+              <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
                 Conquistas
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
@@ -285,7 +293,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
                   const Icon = icons[index];
                   return (
                     <div key={index} className="flex gap-4 items-start">
-                      <Icon className="conquista-icon text-blue-400" size={16} />
+                      <Icon className="conquista-icon text-cyan-400" size={16} />
                       <div>
                         <p className="text-xs font-black text-white uppercase tracking-widest mb-1 italic">
                           {achievement.title}
@@ -309,12 +317,12 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.bearts.role}
             iconColor={experiencesData[3].iconColor}
             scope={t.experiences.bearts.scope}
-            isOpen={openAccordion === 'bearts'}
+            isOpen={openAccordions.has('bearts')}
             onToggle={() => toggleAccordion('bearts')}
             className={getHighlightClass('bearts')}
           >
             <div>
-              <div className="inline-block px-3 py-1 rounded-sm bg-slate-500/10 border border-slate-500/20 text-slate-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
+              <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
                 Conquistas
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
@@ -323,7 +331,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
                   const Icon = icons[index];
                   return (
                     <div key={index} className="flex gap-4 items-start">
-                      <Icon className="conquista-icon text-slate-400" size={16} />
+                      <Icon className="conquista-icon text-cyan-400" size={16} />
                       <div>
                         <p className="text-xs font-black text-white uppercase tracking-widest mb-1 italic">
                           {achievement.title}
@@ -347,12 +355,12 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.baermate.role}
             iconColor={experiencesData[4].iconColor}
             scope={t.experiences.baermate.scope}
-            isOpen={openAccordion === 'baermate'}
+            isOpen={openAccordions.has('baermate')}
             onToggle={() => toggleAccordion('baermate')}
             className={getHighlightClass('baermate')}
           >
             <div>
-              <div className="inline-block px-3 py-1 rounded-sm bg-lime-500/10 border border-lime-500/20 text-lime-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
+              <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
                 Conquistas
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
@@ -361,7 +369,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
                   const Icon = icons[index];
                   return (
                     <div key={index} className="flex gap-4 items-start">
-                      <Icon className="conquista-icon text-lime-400" size={16} />
+                      <Icon className="conquista-icon text-cyan-400" size={16} />
                       <div>
                         <p className="text-xs font-black text-white uppercase tracking-widest mb-1 italic">
                           {achievement.title}
@@ -385,12 +393,12 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.puffbr.role}
             iconColor={experiencesData[5].iconColor}
             scope={t.experiences.puffbr.scope}
-            isOpen={openAccordion === 'puffbr'}
+            isOpen={openAccordions.has('puffbr')}
             onToggle={() => toggleAccordion('puffbr')}
             className={getHighlightClass('puffbr')}
           >
             <div>
-              <div className="inline-block px-3 py-1 rounded-sm bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
+              <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
                 Conquistas
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
@@ -399,7 +407,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
                   const Icon = icons[index];
                   return (
                     <div key={index} className="flex gap-4 items-start">
-                      <Icon className="conquista-icon text-indigo-400" size={16} />
+                      <Icon className="conquista-icon text-cyan-400" size={16} />
                       <div>
                         <p className="text-xs font-black text-white uppercase tracking-widest mb-1 italic">
                           {achievement.title}
@@ -423,7 +431,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.get2gether.role}
             iconColor={experiencesData[6].iconColor}
             scope={t.experiences.get2gether.scope}
-            isOpen={openAccordion === 'get2gether'}
+            isOpen={openAccordions.has('get2gether')}
             onToggle={() => toggleAccordion('get2gether')}
             className={getHighlightClass('get2gether')}
           >
@@ -461,12 +469,12 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.futuregroup.role}
             iconColor={experiencesData[7].iconColor}
             scope={t.experiences.futuregroup.scope}
-            isOpen={openAccordion === 'futuregroup'}
+            isOpen={openAccordions.has('futuregroup')}
             onToggle={() => toggleAccordion('futuregroup')}
             className={getHighlightClass('futuregroup')}
           >
             <div>
-              <div className="inline-block px-3 py-1 rounded-sm bg-slate-500/10 border border-slate-500/20 text-slate-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
+              <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
                 Conquistas
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
@@ -475,7 +483,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
                   const Icon = icons[index];
                   return (
                     <div key={index} className="flex gap-4 items-start">
-                      <Icon className="conquista-icon text-slate-400" size={16} />
+                      <Icon className="conquista-icon text-cyan-400" size={16} />
                       <div>
                         <p className="text-xs font-black text-white uppercase tracking-widest mb-1 italic">
                           {achievement.title}
@@ -499,12 +507,12 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
             role={t.experiences.tvglobo.role}
             iconColor={experiencesData[8].iconColor}
             scope={t.experiences.tvglobo.scope}
-            isOpen={openAccordion === 'tvglobo'}
+            isOpen={openAccordions.has('tvglobo')}
             onToggle={() => toggleAccordion('tvglobo')}
             className={getHighlightClass('tvglobo')}
           >
             <div>
-              <div className="inline-block px-3 py-1 rounded-sm bg-red-500/10 border border-red-500/20 text-red-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
+              <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-6 uppercase tracking-[0.25em]">
                 Conquistas
               </div>
               <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
@@ -513,7 +521,7 @@ export function ExperiencesSection({ language, activeSection }: ExperiencesSecti
                   const Icon = icons[index];
                   return (
                     <div key={index} className="flex gap-4 items-start">
-                      <Icon className="conquista-icon text-red-400" size={16} />
+                      <Icon className="conquista-icon text-cyan-400" size={16} />
                       <div>
                         <p className="text-xs font-black text-white uppercase tracking-widest mb-1 italic">
                           {achievement.title}

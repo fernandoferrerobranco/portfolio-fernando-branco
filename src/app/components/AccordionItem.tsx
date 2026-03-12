@@ -66,7 +66,7 @@ export function AccordionItem({
       {isOpen && (
         <div className="px-10 pb-10 pt-0 border-t border-white/5">
           <div className="mb-8 pt-8">
-            <div className="inline-block px-3 py-1 rounded-sm bg-slate-900/50 border border-slate-800 text-slate-400 font-bold text-[9px] mb-4 uppercase tracking-[0.25em]">
+            <div className="inline-block px-3 py-1 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold text-[9px] mb-4 uppercase tracking-[0.25em]">
               Escopo
             </div>
             <p className="text-sm leading-relaxed text-slate-100 font-light">{scope}</p>

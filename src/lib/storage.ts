@@ -874,7 +874,7 @@ const DEFAULT_ABOUT_STYLES: AboutStyles = {
   },
   educationInstitutionContainer: {
     backgroundColor: 'rgba(15, 23, 42, 0.5)', // 🎨 Fundo translúcido
-    borderColor: 'rgba(6, 182, 212, 0.1)', // 🎨 Borda cyan suave
+    borderColor: 'rgba(6, 182, 212, 0.1)', // �� Borda cyan suave
     borderWidth: '1px',
     borderRadius: '4px',
     paddingX: '8px',
@@ -962,7 +962,7 @@ const DEFAULT_ABOUT_STYLES: AboutStyles = {
   },
   skillName: {
     fontFamily: 'Inter, system-ui, sans-serif',
-    fontSize: '20px',
+    fontSize: '14px',
     fontWeight: '400',
     color: '#94a3b8',
     lineHeight: '1.5',
@@ -1057,19 +1057,19 @@ const DEFAULT_ABOUT_STYLES: AboutStyles = {
 const DEFAULT_DATA: PortfolioData = {
   hero: {
     // 🌍 Campos bilíngues - PT
-    badge_pt: 'Marketing Operations & Project Leader',
-    badge_en: 'Marketing Operations & Project Leader',
+    badge_pt: 'Gerente de Marketing',
+    badge_en: 'Marketing Manager',
     title1_pt: 'Marketing 360',
     title1_en: 'Marketing 360',
-    title2_pt: 'Data & Processos',
-    title2_en: 'Data & Processes',
+    title2_pt: 'Inteligência Operacional',
+    title2_en: 'Operational Intelligence',
     title3_pt: 'Go To Market',
     title3_en: 'Go To Market',
     title4_pt: 'Gestão de Stakeholders',
     title4_en: 'Stakeholder Management',
     location_pt: 'São Paulo, Brasil',
     location_en: 'São Paulo, Brazil',
-    email: 'contato@fernandoferrerobranco.com.br',
+    email: 'fernandoferrerobranco@gmail.com',
     cardName_pt: 'FERNANDO BRANCO',
     cardName_en: 'FERNANDO BRANCO',
     cardRole_pt: '36 anos, solteiro, brasileiro',
@@ -1080,7 +1080,7 @@ const DEFAULT_DATA: PortfolioData = {
     button1Link: 'https://linkedin.com/in/fernandobranco',
     button2Text_pt: 'Download CV',
     button2Text_en: 'Download CV',
-    button2Link: 'https://portfolio.fernandobranco.com',
+    button2Link: '#cv', // Não usado, botão 2 abre modal
     // Avatar/Foto
     avatarUrl: 'figma:asset/0e465f0946ecad4cff3e8f42683c0768576255ae.png',
     // Background - Gradiente azul escuro limpo
@@ -1093,13 +1093,13 @@ const DEFAULT_DATA: PortfolioData = {
     sectionTitle_pt: 'CONHEÇA MINHA',
     sectionTitle_en: 'DISCOVER MY',
     sectionTitleHighlight_pt: 'TRAJETÓRIA',
-    sectionTitleHighlight_en: 'TRAJECTORY',
+    sectionTitleHighlight_en: 'JOURNEY',
     
     // Sobre Mim
     aboutTitle_pt: 'SOBRE',
     aboutTitle_en: 'ABOUT',
-    aboutText_pt: 'Especialista em orquestrar processos, dados e pessoas para viabilizar entregas de alto impacto. Com 15 anos de trajetória em empresas como Shopee, Comgás e Globo, atuo como o elo estratégico entre a visão de negócio e a execução técnica.\n\nMinha expertise une a sensibilidade do Branding à disciplina da Eficiência Operacional, combinando a escala de Big Techs à agilidade do mindset empreendedor. Com atuação regional em 5 países da América Latina, me especializei em viabilizar o Go-To-Market através de uma inteligência operacional que respeita a identidade da marca, organiza o caos e potencializa a lucratividade em cenários de alta complexidade.',
-    aboutText_en: 'Specialist in orchestrating processes, data and people to enable high-impact deliveries. With 15 years of experience in companies such as Shopee, Comgás and Globo, I act as the strategic link between business vision and technical execution.\n\nMy expertise combines the sensitivity of Branding with the discipline of Operational Efficiency, merging Big Tech scale with the agility of an entrepreneurial mindset. With regional experience across 5 Latin American countries, I specialized in enabling Go-To-Market through operational intelligence that respects brand identity, organizes chaos and maximizes profitability in highly complex scenarios.',
+    aboutText_pt: 'Especialista em orquestrar processos, dados e pessoas para viabilizar entregas de alto impacto, atuando como elo estratégico entre a visão de negócio e a execução técnica. Minha trajetória de 15 anos une a escala de Big Techs, a solidez de grandes corporações à agilidade do empreendedorismo, com atuação regional em 5 países da América Latina. Com foco em criar campanhas inovadoras, tirar projetos do papel e liderar estratégias de Go-to-Market de ponta a ponta, visando sempre a construção de operações escaláveis e sustentáveis.',
+    aboutText_en: 'Specialist in orchestrating processes, data and people to enable high-impact deliveries, acting as the strategic link between business vision and technical execution. My 15-year journey combines Big Tech scale, the solidity of large corporations with entrepreneurial agility, with regional experience across 5 Latin American countries. Focused on creating innovative campaigns, bringing projects to life and leading end-to-end Go-to-Market strategies, always aiming to build scalable and sustainable operations.',
     aboutIcon: 'Award',
     
     // Formação
@@ -1149,8 +1149,8 @@ const DEFAULT_DATA: PortfolioData = {
         flag: '🇪🇸',
         name_pt: 'Espanhol',
         name_en: 'Spanish',
-        level_pt: 'Básico',
-        level_en: 'Basic',
+        level_pt: 'Avançado',
+        level_en: 'Advanced',
       },
     ],
     
@@ -1158,8 +1158,16 @@ const DEFAULT_DATA: PortfolioData = {
     skillsTitle_pt: 'COMPETÊNCIAS',
     skillsTitle_en: 'SKILLS',
     skillsIcon: 'Lightbulb',
-    skillItems_pt: ['MarOps', 'Inteligência de Negócios', 'Go to Market', 'Automação de Fluxos', 'Branding', 'Eficiência Operacional', 'Gestão de Stakeholders', 'Gestão de Projetos'],
-    skillItems_en: ['MarOps', 'Workflow Automation', 'Branding', 'Business Intelligence', 'Go to Market', 'Operational Efficiency', 'Stakeholder Management', 'Project Management'],
+    skillItems_pt: [
+      'Liderança', 'Criatividade', 'Inovação', 'Comunicação', 'Inteligência Emocional', 
+      'Gestão do Tempo', 'Resolução de Problemas', 'Adaptabilidade', 'Trabalho em Equipe', 
+      'Pensamento Crítico', 'Gestão de Projetos', 'Análise de Dados', 'Inteligência Artificial'
+    ],
+    skillItems_en: [
+      'Leadership', 'Creativity', 'Innovation', 'Communication', 'Emotional Intelligence', 
+      'Time Management', 'Problem Solving', 'Adaptability', 'Teamwork', 
+      'Critical Thinking', 'Project Management', 'Data Analysis', 'Artificial Intelligence'
+    ],
     
     // Certificações
     certificationsTitle_pt: 'CERTIFICAÇÕES',
@@ -1179,20 +1187,20 @@ const DEFAULT_DATA: PortfolioData = {
     pilarsIcon4: 'Users',
     pilar1Title_pt: 'Marketing 360',
     pilar1Title_en: 'Marketing 360',
-    pilar1Desc_pt: 'Planejamento estratégico end-to-end, campanhas integradas e gestão de ecosistemas digitais completos.',
-    pilar1Desc_en: 'End-to-end strategic planning, integrated campaigns and complete digital ecosystem management.',
-    pilar2Title_pt: 'Data & Processos',
-    pilar2Title_en: 'Data & Processes',
+    pilar1Desc_pt: 'Branding e planejamento estratégico end-to-end, campanhas integradas e gestão de ecossistemas físicos e digitais completos.',
+    pilar1Desc_en: 'Branding and end-to-end strategic planning, integrated campaigns and complete physical and digital ecosystem management.',
+    pilar2Title_pt: 'Inteligência Operacional',
+    pilar2Title_en: 'Operational Intelligence',
     pilar2Desc_pt: 'Automação de fluxos, governança de dados e arquitetura de sistemas escaláveis de alta performance.',
-    pilar2Desc_en: 'Flow automation, data governance and architecture of high-performance scalable systems.',
+    pilar2Desc_en: 'Workflow automation, data governance and scalable high-performance systems architecture.',
     pilar3Title_pt: 'Go to Market',
     pilar3Title_en: 'Go to Market',
     pilar3Desc_pt: 'Estratégias de lançamento, growth hacking e otimização de jornadas para aquisição e retenção.',
     pilar3Desc_en: 'Launch strategies, growth hacking and journey optimization for acquisition and retention.',
     pilar4Title_pt: 'Gestão de Stakeholders',
     pilar4Title_en: 'Stakeholder Management',
-    pilar4Desc_pt: 'Mediação de conflitos, alinhamento de expectativas e interface com lideranças seniores C-Level.',
-    pilar4Desc_en: 'Conflict mediation, expectation alignment and interface with senior C-Level leadership.',
+    pilar4Desc_pt: 'Foco em garantir a fluidez de projetos através da gestão ativa de parceiros internos e externos, assegurando conformidade com SLAs e diretrizes globais.',
+    pilar4Desc_en: 'Focus on ensuring project fluidity through active management of internal and external partners, ensuring compliance with SLAs and global guidelines.',
     
     // Big Numbers
     bigNumbersIcon: 'TrendingUp',
@@ -1322,24 +1330,7 @@ const DEFAULT_DATA: PortfolioData = {
     ],
   },
   aboutStyles: DEFAULT_ABOUT_STYLES,
-  experiences: [
-    {
-      id: '1',
-      company: 'Tech Corp',
-      role: 'Operations Director',
-      period: '2020 - Presente',
-      description: 'Liderança de equipes multidisciplinares e implementação de processos ágeis.',
-      tags: ['Gestão', 'Processos', 'Agile'],
-    },
-    {
-      id: '2',
-      company: 'Startup XYZ',
-      role: 'Marketing Manager',
-      period: '2018 - 2020',
-      description: 'Crescimento de 300% em MRR através de estratégias data-driven.',
-      tags: ['Growth', 'Marketing', 'Data'],
-    },
-  ],
+  experiences: [],
   skills: [
     { id: '1', name: 'Marketing Digital', category: 'business', level: 5 },
     { id: '2', name: 'Data Analysis', category: 'technical', level: 4 },

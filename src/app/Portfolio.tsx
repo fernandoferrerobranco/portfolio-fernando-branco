@@ -3,7 +3,7 @@ import AOS from 'aos';
 import { Language, translations } from './data/translations';
 import { HeroSection } from './components/HeroSection';
 import { TrajetoriaSection } from './components/TrajetoriaSection';
-import { DepoimentosSection } from './components/DepoimentosSection';
+// import { DepoimentosSection } from './components/DepoimentosSection';
 import { ExperiencesSection } from './components/ExperiencesSection';
 import { SkillsSection } from './components/SkillsSection';
 import { Footer } from './components/Footer';
@@ -88,9 +88,6 @@ export default function Portfolio({ activeSection: activeFromAdmin }: { activeSe
 
       {/* Detailed Experiences */}
       <ExperiencesSection language={language} activeSection={activeSection} />
-
-      {/* Testimonials */}
-      <DepoimentosSection language={language} />
 
       {/* Skills */}
       <SkillsSection language={language} />

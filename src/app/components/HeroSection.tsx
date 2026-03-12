@@ -4,6 +4,7 @@ import { Language, translations } from '../data/translations';
 import { loadData } from '../../lib/storage';
 import { useAdmin } from '../context/AdminContext';
 import { applyTextColor, applyBackgroundColor, applyFieldStyle } from '../utils/applyStyles';
+import { CVDownloadModal } from './CVDownloadModal';
 import avatarImg from 'figma:asset/0e465f0946ecad4cff3e8f42683c0768576255ae.png';
 
 interface HeroSectionProps {
@@ -14,8 +15,11 @@ export function HeroSection({ language }: HeroSectionProps) {
   const t = translations[language].hero;
   const [data, setData] = useState(loadData());
   const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop'); // 📱 NOVO
+  const [isCVModalOpen, setIsCVModalOpen] = useState(false); // 📄 Modal do CV
   const [animationKey, setAnimationKey] = useState(0); // 🎬 REPLAY de animações
   const { activeSection } = useAdmin(); // 🎯 Highlight
+
+  console.log('🟢 HeroSection renderizado! isCVModalOpen:', isCVModalOpen);
 
   useEffect(() => {
     // Recarregar dados quando storage mudar
@@ -313,7 +317,7 @@ export function HeroSection({ language }: HeroSectionProps) {
               }
               // 3. Efeitos - RESTAURAR TRANSFORMAÇÕES PERMANENTES
               e.currentTarget.style.opacity = heroStyles.badgeEffects?.opacity || '1';
-              // Reconstruir transform com transformaç��es permanentes
+              // Reconstruir transform com transformaçes permanentes
               const transforms = [
                 heroStyles.badgeEffects?.scale && heroStyles.badgeEffects.scale !== '1' 
                   ? `scale(${heroStyles.badgeEffects.scale})` 
@@ -448,8 +452,12 @@ export function HeroSection({ language }: HeroSectionProps) {
           </div>
           
           <div id="hero-buttons" className={`flex flex-wrap gap-4 transition-all ${getHighlightClass('hero-buttons')}`}>
+            {console.log('🟡 Renderizando botões. Button1:', displayData.button1Text, 'Button2:', displayData.button2Text)}
+            {/* Botão 1 - LinkedIn (link externo) */}
             <a
-              href={hero.button1Link || "#experiencia"}
+              href={hero.button1Link || "https://linkedin.com"}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-4 rounded-sm font-black hover:opacity-80 transition uppercase tracking-widest text-sm md:text-base border"
               style={{
                 fontFamily: heroStyles.button1.fontFamily,
@@ -464,9 +472,18 @@ export function HeroSection({ language }: HeroSectionProps) {
             >
               {displayData.button1Text}
             </a>
-            <a
-              href={hero.button2Link || "#contato"}
-              className="px-8 py-4 rounded-sm font-black hover:opacity-80 transition uppercase tracking-widest text-sm md:text-base border"
+            
+            {/* Botão 2 - Download CV (abre modal) */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🔥🔥 BOTÃO CV CLICADO!');
+                setIsCVModalOpen(true);
+                console.log('🔥🔥 Modal aberto!');
+              }}
+              type="button"
+              className="px-8 py-4 rounded-sm font-black hover:opacity-80 transition uppercase tracking-widest text-sm md:text-base border cursor-pointer"
               style={{
                 fontFamily: heroStyles.button2.fontFamily,
                 fontSize: getFontSize(heroStyles.button2),
@@ -479,7 +496,7 @@ export function HeroSection({ language }: HeroSectionProps) {
               }}
             >
               {displayData.button2Text}
-            </a>
+            </button>
           </div>
         </div>
         
@@ -539,6 +556,7 @@ export function HeroSection({ language }: HeroSectionProps) {
           </div>
         </div>
       </div>
+      <CVDownloadModal isOpen={isCVModalOpen} onClose={() => setIsCVModalOpen(false)} language={language} />
     </header>
   );
 }

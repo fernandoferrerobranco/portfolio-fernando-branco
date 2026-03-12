@@ -16,7 +16,11 @@ import {
   Zap,
   BarChart3,
   Rocket,
-  Users
+  Users,
+  Shield,
+  Globe,
+  Heart,
+  Video
 } from 'lucide-react';
 import { Counter } from './Counter';
 import { Language, translations } from '../data/translations';
@@ -134,36 +138,51 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
 
   // Timeline data
   const timelineItems = [
-    { date: '2024 - 2025', company: 'FictorPay' },
-    { date: '2022 - 2024', company: 'Shopee' },
+    { date: '2025 - 2026', company: 'FictorPay' },
+    { date: '2022 - 2025', company: 'Shopee' },
     { date: '2021 - 2022', company: 'Comgás' },
-    { date: '2020 - 2021', company: 'Be Arts' },
     { date: '2019 - 2020', company: 'Baer-Mate' },
-    { date: '2019', company: 'Puff BR' },
     { date: '2014 - 2019', company: 'Get2Gether' },
     { date: '2013 - 2014', company: 'Future Group' },
-    { date: '2011 - 2012', company: 'TV Globo' },
   ];
 
   // Cases de Sucesso - dados idênticos do CasesSection
   const cases = [
     {
-      icon: Zap,
-      color: 'orange' as const,
-      image: 'https://images.unsplash.com/photo-1644984875410-e11486d2b94f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlY29tbWVyY2UlMjBzaG9wZWUlMjBvbmxpbmUlMjBzaG9wcGluZ3xlbnwxfHx8fDE3NzE2MjA2NTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: Rocket,
+      color: 'cyan' as const,
+      image: 'https://images.unsplash.com/photo-1765366417030-16d9765d920a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmaW50ZWNoJTIwcGF5bWVudHMlMjBzdGFydHVwJTIwb2ZmaWNlfGVufDF8fHx8MTc3Mjg1MjY3N3ww&ixlib=rb-4.1.0&q=80&w=1080',
       data: tCases.case1,
     },
     {
-      icon: TrendingUp,
-      color: 'cyan' as const,
-      image: 'https://images.unsplash.com/photo-1770876577940-297a5b6f31b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwbWFya2V0aW5nJTIwc3RyYXRlZ3klMjBvZmZpY2V8ZW58MXx8fHwxNzcxNjIwNjUzfDA&ixlib=rb-4.1.0&q=80&w=1080',
+      icon: Zap,
+      color: 'orange' as const,
+      image: 'https://images.unsplash.com/photo-1644984875410-e11486d2b94f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlY29tbWVyY2UlMjBzaG9wZWUlMjBvbmxpbmUlMjBzaG9wcGluZ3xlbnwxfHx8fDE3NzI4NTI2Nzd8MA&ixlib=rb-4.1.0&q=80&w=1080',
       data: tCases.case2,
     },
     {
-      icon: Target,
+      icon: Shield,
       color: 'blue' as const,
-      image: 'https://images.unsplash.com/photo-1759752393975-7ca7b302fcc6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGF1dG9tYXRpb24lMjB3b3JrZmxvd3xlbnwxfHx8fDE3NzE1NDQ3MzJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      image: 'https://images.unsplash.com/photo-1636926973187-469fc07293df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3Jwb3JhdGUlMjBnb3Zlcm5hbmNlJTIwaW5mcmFzdHJ1Y3R1cmV8ZW58MXx8fHwxNzcyODUyNjc4fDA&ixlib=rb-4.1.0&q=80&w=1080',
       data: tCases.case3,
+    },
+    {
+      icon: TrendingUp,
+      color: 'green' as const,
+      image: 'https://images.unsplash.com/photo-1737690974141-c964afbdf986?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmFkZSUyMG1hcmtldGluZyUyMGZpZWxkJTIwc2FsZXN8ZW58MXx8fHwxNzcyODUyNjc5fDA&ixlib=rb-4.1.0&q=80&w=1080',
+      data: tCases.case4,
+    },
+    {
+      icon: Heart,
+      color: 'pink' as const,
+      image: 'https://images.unsplash.com/photo-1663298953773-4a63966632a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NjZXIlMjBmb290YmFsbCUyMHN0YWRpdW0lMjBicmFzaWx8ZW58MXx8fHwxNzcyODUyNjgwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+      data: tCases.case5,
+    },
+    {
+      icon: Video,
+      color: 'indigo' as const,
+      image: 'https://images.unsplash.com/photo-1765277873772-cefea49ce17f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbnRlcnRhaW5tZW50JTIwc2hvdyUyMHRoZWF0ZXIlMjBzdGFnZXxlbnwxfHx8fDE3NzI4NTI2ODB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      data: tCases.case6,
     },
   ];
 
@@ -194,7 +213,7 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
   // Map icon names to actual icon components
   const iconMap: Record<string, any> = {
     Target, BarChart3, Rocket, Users, Zap, TrendingUp, Award, Lightbulb,
-    GraduationCap, Languages, FileCheck
+    GraduationCap, Languages, FileCheck, Shield, Globe, Heart, Video
   };
   
   const pilaresIcons = pilaresData.map(p => ({
@@ -241,7 +260,7 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
           <div className="h-[2px] w-32 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto"></div>
         </div>
 
-        {/* ══════════════════ LINHA 1 ═══════════════════ */}
+        {/* ═════════════════ LINHA 1 ═══════════════════ */}
         {/* 50% Sobre + 50% Grid 2x2 (Formação/Idiomas/Skills/Certs) */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           
@@ -361,11 +380,11 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
                   {language === 'pt' ? about.skillsTitle_pt : about.skillsTitle_en}
                 </h3>
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {(language === 'pt' ? about.skillItems_pt : about.skillItems_en).map((skill, index) => (
                   <span
                     key={index}
-                    className="px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-sm text-xs md:text-sm font-bold text-cyan-400 uppercase tracking-wider hover:bg-cyan-500/20 transition-all"
+                    className="px-2 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded text-xs font-medium text-cyan-400 hover:bg-cyan-500/20 transition-colors whitespace-nowrap"
                   >
                     {skill}
                   </span>
@@ -444,73 +463,91 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
             </div>
             
             <div className="grid grid-cols-3 gap-6">
-              <div id="about-bignumber-1" className={`text-center transition-all ${getHighlightClass('about-bignumber-1')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={19} suffix="+" />
+              {/* 1. 15+ Anos de Experiência */}
+              <div id="about-bignumber-1" className={`transition-all ${getHighlightClass('about-bignumber-1')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  <Counter end={15} suffix="+" />
                 </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label1.replace('\\n', '<br/>') }}></div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label1.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label1Desc}</p>
               </div>
 
-              <div id="about-bignumber-2" className={`text-center transition-all ${getHighlightClass('about-bignumber-2')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
+              {/* 2. 5 Países da América Latina */}
+              <div id="about-bignumber-2" className={`transition-all ${getHighlightClass('about-bignumber-2')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  <Counter end={5} suffix="" />
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label2.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label2Desc}</p>
+              </div>
+
+              {/* 3. 90+ Projetos Viabilizados */}
+              <div id="about-bignumber-3" className={`transition-all ${getHighlightClass('about-bignumber-3')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  <Counter end={90} suffix="+" />
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label3.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label3Desc}</p>
+              </div>
+
+              {/* 4. 100x Escala de Vouchers */}
+              <div id="about-bignumber-4" className={`transition-all ${getHighlightClass('about-bignumber-4')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  <Counter end={100} suffix="x" />
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label4.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label4Desc}</p>
+              </div>
+
+              {/* 5. 90% Ganho de Eficiência */}
+              <div id="about-bignumber-5" className={`transition-all ${getHighlightClass('about-bignumber-5')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  <Counter end={90} suffix="%" />
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label5.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label5Desc}</p>
+              </div>
+
+              {/* 6. 87% Redução de Lead Time */}
+              <div id="about-bignumber-6" className={`transition-all ${getHighlightClass('about-bignumber-6')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  <Counter end={87} suffix="%" />
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label6.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label6Desc}</p>
+              </div>
+
+              {/* 7. R$ 1 Milhão em 48 Horas */}
+              <div id="about-bignumber-7" className={`transition-all ${getHighlightClass('about-bignumber-7')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  R$ 1Mi
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label7.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label7Desc}</p>
+              </div>
+
+              {/* 8. 1 Case Histórico */}
+              <div id="about-bignumber-8" className={`transition-all ${getHighlightClass('about-bignumber-8')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
+                  <Counter end={1} suffix="" />
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label8.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label8Desc}</p>
+              </div>
+
+              {/* 9. 98% de Precisão (SLA) */}
+              <div id="about-bignumber-9" className={`transition-all ${getHighlightClass('about-bignumber-9')}`}>
+                <div className="text-4xl font-black text-cyan-400 mb-2 leading-none">
                   <Counter end={98} suffix="%" />
                 </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label2.replace('\\n', '<br/>') }}></div>
-              </div>
-
-              <div id="about-bignumber-3" className={`text-center transition-all ${getHighlightClass('about-bignumber-3')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={500} suffix="+" />
-                </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label3.replace('\\n', '<br/>') }}></div>
-              </div>
-
-              <div id="about-bignumber-4" className={`text-center transition-all ${getHighlightClass('about-bignumber-4')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={3} suffix="" />
-                </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label4.replace('\\n', '<br/>') }}></div>
-              </div>
-
-              <div id="about-bignumber-5" className={`text-center transition-all ${getHighlightClass('about-bignumber-5')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={500} suffix="" />
-                </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label5.replace('\\n', '<br/>') }}></div>
-              </div>
-
-              <div id="about-bignumber-6" className={`text-center transition-all ${getHighlightClass('about-bignumber-6')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={9} suffix="+" />
-                </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label6.replace('\\n', '<br/>') }}></div>
-              </div>
-
-              <div id="about-bignumber-7" className={`text-center transition-all ${getHighlightClass('about-bignumber-7')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={15} suffix="K+" />
-                </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label7.replace('\\n', '<br/>') }}></div>
-              </div>
-
-              <div id="about-bignumber-8" className={`text-center transition-all ${getHighlightClass('about-bignumber-8')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={300} suffix="%" />
-                </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label8.replace('\\n', '<br/>') }}></div>
-              </div>
-
-              <div id="about-bignumber-9" className={`text-center transition-all ${getHighlightClass('about-bignumber-9')}`}>
-                <div className="text-4xl font-black text-cyan-400 mb-1 leading-none">
-                  <Counter end={50} suffix="+" />
-                </div>
-                <div className="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-500" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label9.replace('\\n', '<br/>') }}></div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2" dangerouslySetInnerHTML={{ __html: t.bigNumbers.label9.replace('\\n', '<br/>') }}></div>
+                <p className="text-[10px] text-slate-400 leading-tight">{t.bigNumbers.label9Desc}</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ════════════════���══ LINHA 3 ═══════════════════ */}
+        {/* ══════════════════ LINHA 3 ═══════════════════ */}
         {/* Timeline Horizontal - 100% */}
         <div 
           id="about-timeline"
@@ -595,6 +632,42 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
                   icon: 'text-blue-400',
                   text: 'text-blue-400',
                   metric: 'text-blue-400'
+                },
+                purple: {
+                  bg: 'bg-purple-500/10 border-purple-500/20',
+                  icon: 'text-purple-400',
+                  text: 'text-purple-400',
+                  metric: 'text-purple-400'
+                },
+                green: {
+                  bg: 'bg-green-500/10 border-green-500/20',
+                  icon: 'text-green-400',
+                  text: 'text-green-400',
+                  metric: 'text-green-400'
+                },
+                red: {
+                  bg: 'bg-red-500/10 border-red-500/20',
+                  icon: 'text-red-400',
+                  text: 'text-red-400',
+                  metric: 'text-red-400'
+                },
+                pink: {
+                  bg: 'bg-pink-500/10 border-pink-500/20',
+                  icon: 'text-pink-400',
+                  text: 'text-pink-400',
+                  metric: 'text-pink-400'
+                },
+                indigo: {
+                  bg: 'bg-indigo-500/10 border-indigo-500/20',
+                  icon: 'text-indigo-400',
+                  text: 'text-indigo-400',
+                  metric: 'text-indigo-400'
+                },
+                slate: {
+                  bg: 'bg-slate-500/10 border-slate-500/20',
+                  icon: 'text-slate-400',
+                  text: 'text-slate-400',
+                  metric: 'text-slate-400'
                 }
               };
               const colors = colorClasses[caseItem.color];
@@ -602,8 +675,7 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
               return (
                 <div key={idx} className="px-2">
                   <div 
-                    className="group border border-slate-800 rounded-sm hover:border-cyan-500/30 transition-all duration-300 overflow-hidden relative"
-                    style={{ minHeight: '600px' }}
+                    className="group border border-slate-800 rounded-sm hover:border-cyan-500/30 transition-all duration-300 overflow-hidden relative h-[600px] sm:h-[650px] md:h-[700px]"
                     onMouseEnter={() => setHoveredCase(idx)}
                     onMouseLeave={() => setHoveredCase(null)}
                     onClick={() => setHoveredCase(hoveredCase === idx ? null : idx)}
@@ -616,11 +688,11 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-8">
-                        <div className={`w-12 h-12 rounded-sm ${colors.bg} border flex items-center justify-center mb-4`}>
-                          <Icon className={colors.icon} size={24} />
+                      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-sm ${colors.bg} border flex items-center justify-center mb-3 sm:mb-4`}>
+                          <Icon className={colors.icon} size={20} />
                         </div>
-                        <h3 className="text-2xl font-black text-white leading-tight uppercase tracking-tight">
+                        <h3 className="text-xl sm:text-2xl font-black text-white leading-tight uppercase tracking-tight">
                           {caseItem.data.title}
                         </h3>
                       </div>
@@ -628,13 +700,13 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
 
                     {/* Estado HOVER - Card completo */}
                     <div className={`absolute inset-0 bg-slate-900 transition-opacity duration-300 ${hoveredCase === idx ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                      <div className="h-full flex flex-col">
+                      <div className="h-full flex flex-col p-4 sm:p-6">
                         {/* Header */}
-                        <div className="p-6 border-b border-slate-800">
-                          <div className={`w-14 h-14 rounded-sm ${colors.bg} border flex items-center justify-center mb-4`}>
-                            <Icon className={colors.icon} size={28} />
+                        <div className="border-b border-slate-800 pb-4 mb-4">
+                          <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-sm ${colors.bg} border flex items-center justify-center mb-3`}>
+                            <Icon className={colors.icon} size={20} />
                           </div>
-                          <h3 className="text-lg font-black text-white leading-tight mb-2">
+                          <h3 className="text-base sm:text-lg font-black text-white leading-tight mb-2">
                             {caseItem.data.title}
                           </h3>
                           <span className={`text-xs font-bold ${colors.text} uppercase tracking-widest`}>
@@ -642,55 +714,55 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
                           </span>
                         </div>
 
-                        {/* Content */}
-                        <div className="p-6 space-y-4 flex-grow overflow-y-auto">
+                        {/* Content - SEM overflow scroll */}
+                        <div className="space-y-3 sm:space-y-4 flex-grow">
                           {/* Challenge */}
                           <div>
-                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-2">
+                            <span className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1.5">
                               {tCases.challenge}
                             </span>
-                            <p className="text-xs text-slate-400 leading-relaxed">
+                            <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
                               {caseItem.data.challenge}
                             </p>
                           </div>
 
                           {/* Solution */}
                           <div>
-                            <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-2">
+                            <span className="text-[9px] sm:text-[10px] font-black text-slate-500 uppercase tracking-wider block mb-1.5">
                               {tCases.solution}
                             </span>
-                            <p className="text-xs text-slate-400 leading-relaxed">
+                            <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed">
                               {caseItem.data.solution}
                             </p>
                           </div>
 
                           {/* Results */}
-                          <div className="pt-4 border-t border-slate-800">
-                            <span className="text-[10px] font-black text-cyan-400 uppercase tracking-wider block mb-4">
+                          <div className="pt-3 border-t border-slate-800">
+                            <span className="text-[9px] sm:text-[10px] font-black text-cyan-400 uppercase tracking-wider block mb-3">
                               {tCases.results}
                             </span>
-                            <div className="grid grid-cols-3 gap-3">
+                            <div className="grid grid-cols-3 gap-2 sm:gap-3">
                               <div className="text-center">
-                                <div className={`text-2xl font-black ${colors.metric} mb-1`}>
+                                <div className={`text-lg sm:text-xl md:text-2xl font-black ${colors.metric} mb-1`}>
                                   {caseItem.data.metric1}
                                 </div>
-                                <div className="text-[9px] text-slate-500 uppercase tracking-wider leading-tight">
+                                <div className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-wider leading-tight">
                                   {caseItem.data.label1}
                                 </div>
                               </div>
                               <div className="text-center">
-                                <div className={`text-2xl font-black ${colors.metric} mb-1`}>
+                                <div className={`text-lg sm:text-xl md:text-2xl font-black ${colors.metric} mb-1`}>
                                   {caseItem.data.metric2}
                                 </div>
-                                <div className="text-[9px] text-slate-500 uppercase tracking-wider leading-tight">
+                                <div className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-wider leading-tight">
                                   {caseItem.data.label2}
                                 </div>
                               </div>
                               <div className="text-center">
-                                <div className={`text-2xl font-black ${colors.metric} mb-1`}>
+                                <div className={`text-lg sm:text-xl md:text-2xl font-black ${colors.metric} mb-1`}>
                                   {caseItem.data.metric3}
                                 </div>
-                                <div className="text-[9px] text-slate-500 uppercase tracking-wider leading-tight">
+                                <div className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-wider leading-tight">
                                   {caseItem.data.label3}
                                 </div>
                               </div>
@@ -698,10 +770,10 @@ export function TrajetoriaSection({ language, activeSection }: TrajetoriaSection
                           </div>
 
                           {/* Impact */}
-                          <div className="pt-4 border-t border-slate-800">
+                          <div className="pt-3 border-t border-slate-800">
                             <div className="flex items-start gap-2">
-                              <Lightbulb className="text-cyan-400 mt-0.5 flex-shrink-0" size={14} />
-                              <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                              <Lightbulb className="text-cyan-400 mt-0.5 flex-shrink-0" size={12} />
+                              <p className="text-[10px] sm:text-xs text-slate-300 leading-relaxed font-medium">
                                 {caseItem.data.finalImpact}
                               </p>
                             </div>

@@ -4,6 +4,7 @@ import { Language, translations } from '../../data/translations';
 import { useEditor } from '../../contexts/EditorContext';
 import { EditableWrapper } from './EditableWrapper';
 import { EditorModal } from './EditorModal';
+import { CVDownloadModal } from '../CVDownloadModal';
 
 interface EditableHeroSectionProps {
   language: Language;
@@ -13,6 +14,7 @@ export function EditableHeroSection({ language }: EditableHeroSectionProps) {
   const { portfolioData, updateData } = useEditor();
   const t = translations[language].hero;
   const [isEditingHero, setIsEditingHero] = useState(false);
+  const [isCVModalOpen, setIsCVModalOpen] = useState(false);
 
   // Usar dados do editor ou fallback para tradução
   const heroData = portfolioData.hero || {
@@ -23,7 +25,7 @@ export function EditableHeroSection({ language }: EditableHeroSectionProps) {
     title4: t.title4,
     title5: t.title5,
     location: t.location,
-    email: 'fernando@g2g.org.br',
+    email: 'fernandoferrerobranco@gmail.com',
     cardName: t.cardName,
     cardRole: t.cardRole,
   };
@@ -77,12 +79,16 @@ export function EditableHeroSection({ language }: EditableHeroSectionProps) {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <a
-                  href="#experiencia"
-                  className="bg-cyan-500 text-slate-950 px-8 py-4 rounded-sm font-black hover:bg-cyan-400 transition uppercase tracking-widest text-xs"
+                <button
+                  onClick={() => {
+                    console.log('🔥 Botão CV clicado!');
+                    setIsCVModalOpen(true);
+                    console.log('🔥 Modal state atualizado para true');
+                  }}
+                  className="bg-cyan-500 text-slate-950 px-8 py-4 rounded-sm font-black hover:bg-cyan-400 transition uppercase tracking-widest text-xs cursor-pointer"
                 >
                   {t.cta1}
-                </a>
+                </button>
                 <a
                   href="#contato"
                   className="border-2 border-cyan-500 text-cyan-400 px-8 py-4 rounded-sm font-black hover:bg-cyan-500/10 transition uppercase tracking-widest text-xs"
@@ -131,6 +137,9 @@ export function EditableHeroSection({ language }: EditableHeroSectionProps) {
         data={heroData}
         onSave={(data) => updateData('hero', data)}
       />
+
+      {/* Modal de Download de CV */}
+      <CVDownloadModal isOpen={isCVModalOpen} onClose={() => setIsCVModalOpen(false)} language={language} />
     </>
   );
 }
