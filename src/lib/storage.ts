@@ -1081,8 +1081,8 @@ const DEFAULT_DATA: PortfolioData = {
     button2Text_pt: 'Download CV',
     button2Text_en: 'Download CV',
     button2Link: '#cv', // Não usado, botão 2 abre modal
-    // Avatar/Foto
-    avatarUrl: 'figma:asset/0e465f0946ecad4cff3e8f42683c0768576255ae.png',
+    // Avatar/Foto - TEMPORÁRIO: adicione sua foto em /public/foto.png
+    avatarUrl: 'https://images.unsplash.com/photo-1629507208649-70919ca33793?w=400&h=400&fit=crop',
     // Background - Gradiente azul escuro limpo
     backgroundColor: '',
     backgroundGradient: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',

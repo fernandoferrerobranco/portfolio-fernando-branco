@@ -5,7 +5,6 @@ import { loadData } from '../../lib/storage';
 import { useAdmin } from '../context/AdminContext';
 import { applyTextColor, applyBackgroundColor, applyFieldStyle } from '../utils/applyStyles';
 import { CVDownloadModal } from './CVDownloadModal';
-import avatarImg from 'figma:asset/0e465f0946ecad4cff3e8f42683c0768576255ae.png';
 
 interface HeroSectionProps {
   language: Language;
@@ -509,7 +508,7 @@ export function HeroSection({ language }: HeroSectionProps) {
             <div className="relative bg-slate-950 ring-1 ring-white/10 rounded-sm p-12 flex flex-col items-center">
               <div 
                 className="w-40 h-40 bg-slate-900 rounded-full flex items-center justify-center mb-8 border border-cyan-500/20 shadow-[0_0_30px_rgba(34,211,238,0.1)] bg-cover bg-center"
-                style={{ backgroundImage: `url(${avatarImg})` }}
+                style={{ backgroundImage: `url(${hero.avatarUrl || 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&h=400&fit=crop'})` }}
               >
                 {false && (
                   <svg
